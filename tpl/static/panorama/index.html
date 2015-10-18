@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>书房</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <script type="text/javascript" src="./js/3dview.js?max_age=864000"></script>
+		<script type="text/javascript" src="./js/swfobject.js?max_age=864000"></script>
+		<link rel="stylesheet" href="./css/3dview.css?max_age=864000">
+	</head>
+	<body style="margin-top: 0px;">
+		<script type="text/javascript" src="./js/skin.js?max_age=864000"></script>
+		<div id="container" style="width:100%;height:100%;"></div>
+		<script type="text/javascript">
+		 
+		// check for CSS3 3D transformations and WebGL
+		if (ggHasHtml5Css3D() || ggHasWebGL()) {
+			// create the panorama player with the container
+			pano=new pano2vrPlayer("container");
+			// add the skin object
+			skin=new pano2vrSkin(pano);
+			// load the configuration
+			pano.readConfigUrl("origin.xml");
+			// hide the URL bar on the iPhone
+			hideUrlBar();
+		} else if (swfobject.hasFlashPlayerVersion("9.0.0")) {
+			var flashvars = {};
+			var params = {};
+			params.quality = "high";
+			params.bgcolor = "#ffffff";
+			params.allowscriptaccess = "sameDomain";
+			params.allowfullscreen = "true";
+			var attributes = {};
+			attributes.id = "pano";
+			attributes.name = "pano";
+			attributes.align = "middle";
+			//flashvars.skinxml="http://192.168.1.164/newtest2/flash/skin.xml?max_age=864000";
+			flashvars.panoxml="/newtest2/origin.xml";
+			//flashvars.panoxml="http://imgcache.gtimg.cn/club/life/trade/full3d/bgy/shltJ350A/shp/ok.xml";
+			params.base=".";
+			swfobject.embedSWF(
+				"/newtest2/flash/pano2vr_player.swf?max_age=864000", 
+			    "container", 
+				"100%", document.documentElement.clientHeight-44,
+				"9.0.0", "", 
+				flashvars, params, attributes);
+		} 
+		</script>
+		<noscript>
+			&lt;p&gt;&lt;b&gt;Please enable Javascript!&lt;/b&gt;&lt;/p&gt;
+		</noscript>
+		<div class="view_change" style="display: none;"><a href="javascript:void(0);" onclick="goBack();return false">切换房间</a></div>	
+	
+
+</body></html>

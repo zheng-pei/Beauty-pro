@@ -1,0 +1,13 @@
+<!--底部菜单--> 
+ <footer> 
+  <ul class="bottom" id="bottom">
+   <li <if condition="ACTION_NAME eq 'beauty'">class="cur"</if>><a href="{weiwin::U('Index/beauty',array('areaid'=>$areaid,'id'=>0))}"><i class="icon1"></i><b>项目</b></a></li> 
+   <li <if condition="ACTION_NAME eq 'meilists'">class="cur"</if>><a href="{weiwin::U('Meirongshi/meilists')}"><i class="icon2"></i><b>美容师</b></a></li> 
+   <li <if condition="(MODULE_NAME eq 'Index') and (ACTION_NAME eq 'index')">class="cur"</if>><a href="{weiwin::U('Index/index')}" class="bg_dq"><i class="icon3"></i><b>{weiwin:$areaname}</b></a></li> 
+   <li <if condition="(MODULE_NAME eq 'Usercenter') and (ACTION_NAME eq 'index')">class="cur"</if>><a href="{weiwin::U('Usercenter/index')}"><i class="icon4"></i><b>我的</b></a></li> 
+   <li <if condition="ACTION_NAME eq 'myorder'">class="cur"</if>><a href="{weiwin::U('Usercenter/myorder')}"><i class="icon5"></i><b>订单</b></a></li>
+  </ul> 
+ </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span2">
+              <h3> <i class="icon-table"></i>
+               评价列表管理
+              </h3>
+            </div>
+            <div class="fr">
+              <form name="searchform" action="{weiwin::U('Beautician/reviewindex')}" method="post" class="form-horizontal">
+              <input type="hidden" name="beautyid" value="{weiwin:$beautyid}"/>
+              <input type="text" name="servicename" placeholder="服务内容" class="input-large" value="{weiwin:$servicename}" />&nbsp; &nbsp; 
+                  <select name="tech"  class="input-small-s">
+                   <option value="0">手法</option>
+                   <option value="1.0" <if condition="$tech eq 1.0"> selected="selected" </if>>1.0</option>
+                   <option value="2.0" <if condition="$tech eq 2.0"> selected="selected" </if>>2.0</option>
+                    <option value="3.0" <if condition="$tech eq 3.0"> selected="selected" </if>>3.0</option>
+                     <option value="4.0" <if condition="$tech eq 4.0"> selected="selected" </if>>4.0</option>
+                      <option value="5.0" <if condition="$beautyid eq 5.0"> selected="selected" </if>>5.0</option>
+                 </select>&nbsp;  
+                    <select name="manner"  class="input-small-s"> 
+                   <option value="0">礼仪</option>
+                   <option value="1.0" <if condition="$manner eq 1.0"> selected="selected" </if>>1.0</option>
+                   <option value="2.0" <if condition="$manner eq 2.0"> selected="selected" </if>>2.0</option>
+                    <option value="3.0" <if condition="$manner eq 3.0"> selected="selected" </if>>3.0</option>
+                     <option value="4.0" <if condition="$manner eq 4.0"> selected="selected" </if>>4.0</option>
+                      <option value="5.0" <if condition="$manner eq 5.0"> selected="selected" </if>>5.0</option>
+                 </select>&nbsp; 
+                    <select name="att"  class="input-small-s"> 
+                   <option value="0">服务</option>
+                   <option value="1.0" <if condition="$att eq 1.0"> selected="selected" </if>>1.0</option>
+                   <option value="2.0" <if condition="$att eq 2.0"> selected="selected" </if>>2.0</option>
+                    <option value="3.0" <if condition="$att eq 3.0"> selected="selected" </if>>3.0</option>
+                     <option value="4.0" <if condition="$att eq 4.0"> selected="selected" </if>>4.0</option>
+                      <option value="5.0" <if condition="$att eq 5.0"> selected="selected" </if>>5.0</option>
+                 </select>&nbsp; 
+                  <input type="submit" id="dosubmit" name="search" class="btncx" value="搜索" />
+             </form>
+            </div>
+          </div>
+          <div class="box-content nozypadding" style="width:100%;">
+           
+            <div class="row-fluid dataTables_wrapper">
+          
+              <table id="listTable" class="table table-hover table-nomargin table-bordered usertable dataTable">
+                <thead >
+                  <tr>
+                    <th>编号</th>
+                    <th>美容师姓名</th>
+                    <th>服务内容</th>
+                    <th>手法</th>
+                    <th>服务</th>
+                    <th>礼仪</th>
+                    <th>评价人</th> 
+                    <th>评价时间</th>         
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <volist name="lists" id="vo">
+                    <tr>
+                      <td>{weiwin:$vo.id}</td>
+                      <td>{weiwin:$vo.beautyname}</td>
+                      <td>{weiwin:$vo.servicename}</td> 
+                      <td>{weiwin:$vo.tech}</td>                           
+                      <td>{weiwin:$vo.att}</td>
+                      <td>{weiwin:$vo.manner}</td>
+                      <td>{weiwin:$vo.nickname}</td>
+                      <td>{weiwin:$vo.createtime|date="Y-m-d H:i:s",###}</td>
+                    <td>
+                      <a href="{weiwin::U('Beautician/review',array('id'=>$vo['id']))}" class="btnra" title="查看">
+                        <i class="icon-edit"></i>
+                        查看
+                      </a>
+                      <a href="javascript: G.ui.tips.confirm('确定删除？','{weiwin::U('Beautician/reviewdelete',array('beautyid'=>$vo['beautyid'],'id'=>$vo['id']))}')" class="btnra" title="删除">
+                        <i class="icon-remove"></i>
+                        删除
+                      </a>
+                    </td>
+                  </tr>
+                </volist>
+              </tbody>
+            </table>
+            <if condition="$lists neq ''">
+            <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+          </if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<include file="Public:footer" />

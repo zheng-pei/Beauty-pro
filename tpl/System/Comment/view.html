@@ -1,0 +1,65 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>评价详情</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+           <form class="form-horizontal form-validate">
+          	  <div class="control-group">
+                <label  class="control-label">会员昵称：</label>
+                <div class="controls">
+                 	{weiwin:$vo.username}
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">会员头像：</label>
+                <div class="controls">
+                 	<img src="{weiwin:$vo.pic}" width="80" height="80" /> 
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">技师名称：</label>
+                <div class="controls">
+                 	{weiwin:$vo.truename}
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">订单号码：</label>
+                <div class="controls">
+                 	{weiwin:$vo.ordernum}
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">评价星级：</label>
+                <div class="controls">
+                 	{weiwin:$vo.clevel}星
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">评价内容：</label>
+                <div class="controls">
+                 	{weiwin:$vo.comment}
+                 </div>
+              </div>
+              <div class="control-group">
+                <label  class="control-label">评价时间：</label>
+                <div class="controls">
+                 	{weiwin:$vo.createtime|date="Y-m-d H:i:s",###}
+                 </div>
+              </div>
+         </form>     
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<include file="Public:footer" />

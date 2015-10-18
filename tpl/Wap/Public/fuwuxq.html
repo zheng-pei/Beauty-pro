@@ -1,0 +1,67 @@
+<body class="bg_f0">
+<div class="main pd_bo">
+<!--对应的项目的服务列表中服务详情-->
+<div class="fuwu_banner"><img src="{weiwin:$res.coverpic}" alt="美容师" /></div>
+<div class="fuwu">
+  <ul>
+   <li><div class="fuwu_xm clearfix">
+   <span class="fuwu_xm_left">
+   <p class="fs22 elli">
+   	<i <if condition="$res.isrecom eq 1">class="tjian"</if>></i>{weiwin:$res.name}</p>
+   	<!-- 显示美容标题的说明 -->
+   <p class="fs18 color_a8">{weiwin:$res.summary}</p>
+   </span>
+   <span class="fuwu_xm_right color_23 fs30">￥{weiwin:$res.trueprice}</span>
+   </div>
+   <div class="fs18 color_a8 time">服务时间：{weiwin:$res.servicetime}分钟<b class="fr color_a8">院线价：<i class="line color_a8">{weiwin:$res.origprice}元</i></b>
+   </div>
+   </li>
+   <li class="noline">
+   <!-- 服务标签 -->
+   <div class="fuwu_lc">
+     <dl>
+    	<volist name="labname" id="vo2">
+     		<dd><img src="{weiwin:$vo2['pic']}" alt="{weiwin:$vo2.labname}" /><b class="fs18">{weiwin:$vo2.labname}</b></dd>
+ 		</volist>
+     </dl>
+   </div></li>
+   <li>
+   <h3 class="border_e7 fs22">项目介绍</h3>
+   <p class="fs18 color_61">{weiwin:$res.comment}</p>
+   </li>
+   <li>
+   <h3 class="border_e7 fs22">适用人群</h3>
+   <p class="fs18 color_61 pd24">{weiwin:$res.appuser}</p>
+   </li>
+   <li><h3 class="border_e7 fs22">美容步骤</h3>
+   <div class="fuwu_list">
+     <dl>
+     <volist name="servicestep" id="vo">
+     <dd><i class="fs18 color_ff">{weiwin:$vo.code}</i>
+     <span><h4>{weiwin:$vo.sname}</h4>
+     <p class="fs18 color_61">{weiwin:$vo.summary}</p></span>
+     </dd>
+ </volist>
+     </dl>
+   </div>
+   </li>
+   <li>
+   <h3 class="border_e7 fs22">配备产品</h3>
+   <div class="fuwu_cp">
+   <dl>
+   <foreach name="product" item="vo">
+  	<dd>{weiwin:$vo}</dd>
+	</foreach>  
+   </dl>
+   </div></li>
+   <li>
+   <h3 class="border_e7 fs22">注意事项</h3>
+   <div class="fuwu_cp">
+   <dl>
+    <foreach name="attention" item="vo">
+  	<dd>{weiwin:$vo}</dd>
+	</foreach> 
+   </dl>
+   </div></li>
+   </ul>
+ </div>

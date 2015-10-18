@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!-- Apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<script type="text/javascript" src="{weiwin::RES}/js/jquery.js"></script>
+<script type="text/javascript" src="{weiwin::U('choose_select')}"></script>
+<script type="text/javascript" src="{weiwin::U('get_district')}"></script>
+<script type="text/javascript" src="{weiwin::STATICS}/region.js"></script>
+</head>
+<body>
+ <div class="control-group">
+                <label for="brands" class="control-label">品牌/车系：</label>
+                <div class="controls">
+                  <select name="demo1" id="demo1" class="input-medium" data-rule-required="true">
+                  </select>
+                  <select name="demo2" id="demo2" class="input-medium" data-rule-required="true">
+                  </select>
+                   <select name="demo3" id="demo3" class="input-medium" data-rule-required="true">
+                  </select>
+                   <select name="demo4" id="demo4" class="input-medium" data-rule-required="true">
+                  </select>
+                </div>
+              </div>
+              <script type="text/javascript">
+			  <!--new CS(省份id, 城市id,地区id,省份默认值, 城市默认值, 地区默认值);-->
+			  						ShowT=0;
+                                    new CS("demo1", "demo2","demo3", '1', '1', '8','demo4','2');
+                                </script>
+<include file="Public:footer" />

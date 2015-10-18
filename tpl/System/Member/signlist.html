@@ -1,0 +1,51 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span12"> 
+              <h3><i class="icon-table"></i>会员:<font color="red">{weiwin:$voname}</font> &nbsp;签到记录</h3>
+            </div>
+            <!--  <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>-->
+          </div>
+          <hr />
+            <div class="row-fluid dataTables_wrapper">
+              <table id="listTable" class="table table-bordered table-hover dataTable unline">
+                <thead>
+                  <tr>
+                   
+                     <th class="span2">签到时间</th>
+                    <th class="span2">获得积分</th>
+                  </tr>
+                </thead>
+                <volist name="list" id="vo">
+                <tr>
+                  <td>{weiwin:$vo.createtime|date="Y-m-d H:i:s",###}</td>
+                  <td>{weiwin:$vo.point}</td>
+                </tr>
+                </volist>
+              </table>
+             <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function () {
+            $('#tg_OrderExport').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Member/daochu')}");  
+                $("#searchform").submit();
+            });
+			$('#searchsubmit').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Member/index')}");  
+                $("#searchform").submit();
+            });
+        });
+</script>
+<include file="Public:footer" />
+<!-- 菜单区域  -->

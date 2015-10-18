@@ -1,0 +1,63 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box"> 
+          <div class="box-title">
+            <div class="span7">
+              <h3><i class="icon-table"></i>商家订单统计</h3>
+            </div>
+            <div class="span5"></div>
+          </div>
+          <div class="box-content nozypadding" style="width:100%;">
+            <form action="" method="post" class="form-horizontal form-horizontal-s" id="searchform">
+               <select name="areanameid" class="input-medium" />
+                      <option value="0" selected="selected">全部区域</option>
+                      <volist name="areaname" id="vo1">
+                      <option value="{weiwin:$vo1['id']}" <if condition="$aid eq $vo1['id']">selected="selected"</if>>{weiwin:$vo1.areaname}</option>
+                      </volist>
+                      </select>&nbsp; &nbsp;    
+                       
+                <input type="submit" id="dosubmit" name="search" class="btncx" value="搜索" />
+             </form>             
+              <hr />
+            <div class="row-fluid">
+              <div class="span8 control-group">  
+              <a class="btn" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a> 
+              </div>
+            </div>
+            <div class="row-fluid dataTables_wrapper">
+              <table id="listTable" class="table table-hover table-nomargin table-bordered usertable dataTable">
+                <thead>
+                  <tr>
+                  	<th>区域</th>
+                    <th>商家个数</th>
+                    <th>服务项目个数</th>
+                    <th>美容师个数</th>
+                    <th>已完成订单总数</th>
+                    <th>已完成订单总金额</th>
+                  </tr> 
+                </thead>
+                <tbody>
+                <volist name="lists" id="vo">
+                <tr>
+                	<td>{weiwin:$vo.areaname}</td>
+                  <td><a href="{weiwin::U('Business/index')}">{weiwin:$vo.bsidcount}</a></td>
+                  <td><a href="{weiwin::U('Service/index')}">{weiwin:$vo.servicecount}</a></td>
+                  <td><a href="{weiwin::U('Beautician/index')}">{weiwin:$vo.beautycount}</a></td>
+                  <td><a href="{weiwin::U('Order/index')}">{weiwin:$vo.ordercount}</a></td>
+                  <td>{weiwin:$vo.pricesum}</td>
+                </tr>  
+                 </volist> 
+                 </tbody>
+              </table>
+              <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Public:footer" />

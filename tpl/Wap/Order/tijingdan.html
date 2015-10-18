@@ -1,0 +1,185 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{weiwin::RES}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+var r_fount={weiwin:$r_fount}; 
+var r_man=[{weiwin:$r_man}];//预约7天，今天和未来r_fount天的预约情况,0为已满，1为未满
+var serviceid={weiwin:$serviceid|default=0};
+var beautyid={weiwin:$beautyid|default=0};
+</script>
+<script type="text/javascript" src="{weiwin::RES}/js/common.js" ></script>
+<script type="text/javascript" src="{weiwin::RES}/js/time.js" ></script>
+<script type="text/javascript" src="{weiwin::RES}/js/iscroll.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/fastclick.js"></script>
+<body class="bg_f0">
+<!--时间弹窗-->
+  <div class="poplayer none" id="timelayer">
+    <div class="pr_main">
+    <div class="pr_logo"></div>
+     <div class="pr_icon fs22">选择服务日期<i id="close"></i></div>
+     <div class="pr_con" id="rili">
+       <table class="timedate fs18">
+           <tr class="border_dcc">
+             <th scope="col">一</th>
+             <th scope="col">二</th>
+             <th scope="col">三</th>
+             <th scope="col">四</th>
+             <th scope="col">五</th>
+             <th scope="col">六</th>
+             <th scope="col">日</th>
+           </tr>         
+       </table>
+       <p class="fs18 ts"><strong class="color_fe">提示：</strong>最远可预约未来{weiwin:$r_fount}天</p>
+     </div>
+    </div>
+  </div>
+<!--end-->
+<!--时间弹窗2-->
+  <div class="poplayer time2 none" id="stimelayer">
+    <div class="pr_main">
+      <div class="pr_logo"></div>
+      <div class="pr_top">
+        <div class="pr_icon fs22">选择服务日期<i id="close2"></i></div>
+         <h4 class=" border_dcc fs18">2015-08-09 (周六)</h4>
+      </div>
+     <div class="pr_con fs18" id="timecon">
+     <div class="pr_nav">
+       <ul class="clearfix">
+         <!--<li><div class="yutime">09:00<p>约满</p></div></li>-->
+         <li data="09:00">09:00</li>
+         <li data="09:30">09:30</li>
+         <li data="10:00">10:00</li>
+         <li data="10:30">10:30</li>
+         <li data="11:00">11:00</li>
+         <li data="11:30">11:30</li>
+         <li data="12:00">12:00</li>
+         <li data="12:30">12:30</li>
+         <li data="13:00">13:00</li>
+         <li data="13:30">13:30</li>
+         <li data="14:00">14:00</li>
+         <li data="14:30">14:30</li>
+         <li data="15:00">15:00</li>
+         <li data="15:30">15:30</li>
+         <li data="16:00">16:00</li>
+         <li data="16:30">16:30</li>
+         <li data="17:00">17:00</li>
+         <li data="17:30">17:30</li>
+         <li data="18:00">18:00</li>
+         <li data="18:30">18:30</li>
+         <li data="19:00">19:00</li>
+         <li data="19:30">19:30</li>
+         <li data="20:00">20:00</li>
+         <li data="20:30">20:30</li>
+         <li data="21:00">21:00</li>
+         <li data="21:30">21:30</li>
+       </ul>
+       </div>
+     </div>
+     <a href="#" class="queren">确认选择</a>
+    </div>
+  </div>
+<!--end-->
+<div class="main pd_bo">
+  <form action="{weiwin::U('Order/orderdetail')}" method="post" id="orderform">
+  <input type="hidden" name="ymd"  value="" id="rili_val">
+  <input type="hidden" name="xingqi" value="" id="rili_val_day">
+  <input type="hidden" name="shijing" value="" id="time_val">
+  <input type="hidden" name="trueprice" value="{weiwin:$servicename['trueprice']}" id="d_price">
+  <input type="hidden" name="jifeng"　value="" id="u_jifen">
+  <input type="hidden" name="orderprice" value="{weiwin:$servicename['trueprice']}" id="e_price">
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 bgiconr">
+      <li>
+      <div><span class="gr_span">预约人姓名</span><b class="color_a8 fr"><input class="tr color_88" type="text" name="username" id="username" placeholder="请输入预约人姓名" value="{weiwin:$member['yuyuename']}" /></b></div>
+      </li>
+      <li>
+        <div><span class="gr_span">预约人手机</span><b class="color_a8 fr"><input class="tr color_88" type="text" name="phone" id="phone" onkeyup="this.value=value.replace(/[^0-9]/gi,'')" placeholder="请输入预约人手机" value="{weiwin:$member['yuyuephone']}" maxlength="11"/></b></div>
+      </li>
+    </ul>
+    </div>
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+     <li>
+        <input type="hidden" name="serviceid" id="serviceid" value="{weiwin:$serviceid}" />
+        <div><span>选择美容师</span><a class="xz color_a8 fr" id="xzmrs" href="{weiwin::U('Meirongshi/choosemrs',array('classid'=>$classid,'serviceid'=>$serviceid))}"><if condition="$mrsname neq ''">{weiwin:$mrsname}</if></a></div>
+          <input type="hidden" name="beautyid" value="{weiwin:$bid}" />
+         </li>
+      <li class="border_e7">
+        <div id="xzsj"><span>选 择 时 间</span><a class="sj color_a8 fr" id="xztime" href="javascript:;"></a></div>
+       </li>
+    </ul>
+  </div>
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+      <li class="border_e7">
+        <input type="hidden" name="servicename" id="servicename" value="{weiwin:$servicename['name']}" />
+        <div ><span>预约项目</span><b class="color_3f fr" ><strong class="color_fe">[{weiwin:$classname}]</strong>{weiwin:$servicename['name']}</b></div>
+      </li>
+      <li class="border_e7">
+        <input type="hidden" name="trueprice" id="trueprice" value="{weiwin:$servicename['trueprice']}" />
+        <div><span>项目金额</span><b class="color_fe fr" id="trueprice" name="trueprice">{weiwin:$servicename['trueprice']}元</b></div>
+        </li>
+      <li class="border_e7">
+        <div><span>积分</span><b class="color_88 fr tinput"><input data-max="{weiwin:$maxjifeng}" data-lv="{weiwin:$conpoint}" oninput="reset_price(this);" class="tr color_88" type="text" name="jifeng" id="jifeng" placeholder="输入积分（不可超过{weiwin:$maxjifeng}积分）" value="" /></b></div>
+       </li>
+      <li class="border_e7">
+        <div><span>抵扣</span><b class="color_fe fr"><i id="dkou" class="color_fe">0</i>元</b></div>
+        </a> </li>
+      <li>
+      <div><span>实付</span><b class="color_fe fr"><i id="sfu" class="color_fe">{weiwin:$servicename['trueprice']}</i>元</b></div>
+      </li>
+    </ul>
+  </div>
+  <!--底部菜单--> 
+  <footer> 
+  <div class="bottom bg_h yuyue wx"  id="submit">
+   <a class="fs24 color_ff" ><img src="{weiwin::RES}/images/wx.png" /><input type="button" value="提交订单" class="wxinput" /></a>
+  </div>
+</footer>
+</form>
+</div>
+</body>
+<!-- 表单验证，数据都必填，待完成 -->
+<script>
+$(document).ready(function(){
+  // 用户提交了表单
+  $('#submit').click(function(){
+      var username=$('#username').val();
+      var phone=$('#phone').val();
+      // 获取选择时间
+      var date=$('#xztime').text();
+          var str="";
+      if(username.length==0) {
+            str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请填写姓名</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+              $(document.body).append('<div class="bg_fix"></div>');
+              $('.bg_f0').append(str);
+              $('.yuyuelayer a').click(function(){
+                  $('.bg_fix').hide();
+                  $('.yuyuelayer').addClass('none')
+              });   
+            return false;
+        }else if(phone.length==0){
+              str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请填写手机号码</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+              $(document.body).append('<div class="bg_fix"></div>');
+            $('.bg_f0').append(str);
+              $('.yuyuelayer a').click(function(){
+                $('.bg_fix').hide();
+                $('.yuyuelayer').addClass('none')
+              });   
+            return false;
+        }else if(date.length==0){ 
+              str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请选择预约时间</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+              $(document.body).append('<div class="bg_fix"></div>');
+              $('.bg_f0').append(str);
+              $('.yuyuelayer a').click(function(){
+                $('.bg_fix').hide();
+                $('.yuyuelayer').addClass('none')
+              });
+              return false;
+        }else{
+        $('#orderform').submit();
+      } 
+    });
+});
+</script>
+</html>

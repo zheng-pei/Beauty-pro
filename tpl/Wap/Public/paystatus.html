@@ -1,0 +1,21 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{weiwin::RES}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/common.js"></script>
+<body class="bg_f0">
+<!--选择预约时间弹窗-->
+<div class="poplayer yuyuelayer">
+ <div class="pr_main">
+ <if condition="$flag neq 0">
+   	<div class="pr_box clearfix"><img src="{weiwin::RES}/images/adv_5.jpg" />
+  	 <b class="fl fs24">亲！支付成功</b></div>
+   		<h2><a href="{weiwin::U('Usercenter/index')}" class="br_rd border_fe color_fe">请查看个人中心</a></h2>
+ 	<else/>
+ 		<div class="pr_box clearfix"><img src="{weiwin::RES}/images/adv_4.jpg" />
+  	 <b class="fl fs24">亲！支付失败</b></div>
+   		<h2><a href="javascript:history.back();" class="br_rd border_fe color_fe">请返回支付页面</a></h2>
+ </if>
+ </div>
+</div>
+</body>
+</html>

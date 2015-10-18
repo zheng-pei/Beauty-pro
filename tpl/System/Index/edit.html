@@ -1,0 +1,182 @@
+<include file="Public:header" />
+<!--以下内容可以去掉，当前页面需要哪个就加哪个，不需要则可以不加-->
+<!--编辑器  kindeditor-->
+<link rel="stylesheet" type="text/css" href="{weiwin::STATICS}/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="{weiwin::STATICS}/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="{weiwin::STATICS}/kindeditor/lang/zh_CN.js"></script>
+<!--上传文件-->
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/uploadify_t.css" media="all" />
+<script type="text/javascript" src="{weiwin::RES}/js/jquery_uploadify.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/jupload.js"></script>
+<!--地区选择 3级联动-->
+<script type="text/javascript" src="{weiwin::RES}/js/region_select.js"></script>
+<!--多选框-->
+<link href="{weiwin::RES}/css/chosen.css" rel="stylesheet" />
+<script src="{weiwin::RES}/js/chosen_jquery_min.js"></script>
+<!--地图接口  key要替换成自己的-->
+<script src="http://api.map.baidu.com/api?key=24ffad3855e675265336a4cfb46d32b4&v=1.1&services=true" type="text/javascript"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/map.js"></script>
+<!--日期范围选择器-->
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/datepicker.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/daterangepicker.css" media="all" />
+<script type="text/javascript" src="{weiwin::RES}/js/moment_min.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/daterangepicker.js"></script>
+<!--日期选择-->
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/datepicker.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/daterangepicker.css" media="all" />
+<script type="text/javascript" src="{weiwin::RES}/js/bootstrap-datepicker.js"></script>
+<!--end-->
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-edit"></i>编辑页面组件</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+          <!--form 表单的class是必须要有的，form-horizontal是保证表单组件水平显示的，form-validate用于做表单验证用-->
+            <form action="" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+            <!--没一个表单元素 就放在一个control-group的DIV中  用label定义表单元素的标签，controls的DIV中这是表单的元素-->
+              <div class="control-group">
+                <label for="shopname" class="control-label">门店名称：</label>
+                <div class="controls">
+                  <input type="text" name="shopname" id="shopname" class="input-large" data-rule-required="true" data-rule-maxlength="60" value="" />
+                  <!--表单元素中 class可以定义元素大小可用的类有input-mini input-small-s input-small-z input-small input-medium input-large input-xlarge input-xxlarge input-xlarge  这些样式的顺序为从小到大-->
+                  <!--如果表单元素需要验证，则只需要给表单元素加上data-rule-参数即可，其中 
+                  data-rule-required 代表是否必须
+                  data-rule-maxlength  代表最大长度
+                  data-rule-minlength  代表最小长度
+                  data-rule-phone 代表是否为手机号码
+                  data-rule-email 代表是否为电子邮箱
+                  data-rule-url 代表是否为url地址
+                  data-rule-date 代表是否为正确的日期
+                  data-rule-number 代表是否为数字
+                  data-rule-digits 代表是否为整数
+                  data-rule-equalTo 参数为对比表单元素id，用于讲指定id表单与当前表单元素值进行判断，看是否相等
+                  data-rule-range="0,10"  表示表单元素的值必须在0-10之间
+                  data-rule-rangelength="1,3" 表示表单元素的值最短为1个字符，最长为3个字符
+                  data-rule-max  表单元素最大值
+                  data-rule-min  表单元素最小值
+                  -->
+                  <span class="maroon">*</span> <span class="help-inline">不超过60个字符</span> </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="content">手机:</label>
+                <div class="controls">
+                  <input type="text" class="input-large" name="phone" id="phone" data-rule-phone="true" value="" />
+                  <!--<span class="maroon">*</span>--> 
+                  <span class="help-inline">用于接收客户订单消息，请正确填写</span> </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="content">地址:</label>
+                <div class="controls">
+                  <input class="input-large" name="address" id="address" type="text" data-rule-required="true" value="" />
+                  <span class="maroon">*</span> </div>
+              </div>
+                <div class="control-group">
+                <label class="control-label">单选按钮：</label>
+                <div class="controls">
+                  <label class="radio inline">
+                    <input type="radio" value="1" name="is_show" checked="checked" />
+                    显示</label>
+                  <label class="radio inline">
+                    <input type="radio" value="0" name="is_show"  />
+                    隐藏</label>
+                  <span class="help-inline">是否在手机端显示前门店</span> </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="pic">图片:</label>
+                <div class="controls">
+                  <input type="text" id="pic" name="pic" class="input-xlarge" readonly data-rule-required="true" value="" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline">建议大小(宽230高155)</span> </div>
+              </div>
+             
+              <div class="control-group">
+                <label class="control-label" for="renjun">数字:</label>
+                <div class="controls">
+                  <input type="text" class="input-small" name="renjun" id="renjun" data-rule-number="true"  value="20" />
+                  <span class="help-inline">数字</span> </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="shebei">多选框:</label>
+                <div class="controls">
+                   <select name="shebei[]" id="shebei" class="input-xxlarge chosen-select" multiple="multiple" data-placeholder="可选择多个" data-rule-required="true">
+                   	                     <option value="1" selected="selected">免费WIFI</option><option value="2" selected="selected">免费停车</option><option value="3" selected="selected">行李寄存</option>    <option value="212" >美食</option><option value="236" >娱乐</option><option value="279" selected="selected">电影</option><option value="280" >美容保健</option>               </select>
+                  			</div> 
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="location_p"> 地区三级联动</label>
+                <div class="controls">
+                  <select name="province" id="location_p">
+                  </select>
+                  <select name="city" id="location_c">
+                  </select>
+                  <select name="area" id="location_a">
+                  </select>
+                  <script type="text/javascript">
+                       new PCAS("province", "city", "area", '湖北省', '武汉市', '洪山区');
+                  </script> 
+                </div>
+              </div>
+            <div class="control-group">
+                <label class="control-label" for="shebei">时间日期选择:</label>
+                <div class="controls">
+                   <input type="text" class="input-xlarge daterangepick" value="" name="date" id="date" />
+                   
+                   <input type="text" id="date-input" class="input-small-z datepick" placeholder="预定日期" value="" />
+                  			</div> 
+              </div>
+             <div class="control-group">
+                <label class="control-label" for="">地图标识</label>
+                <div class="controls">
+                  <div class="input-append">
+                    <input type="text" id="suggestId" class="input-xlarge" name="map_address" data-rule-required="true" value="湖北省武汉市洪山区南望山西路" />
+                    <button class="btn" type="button" id="positioning">搜索</button>
+                  </div>
+                  <span class="maroon">注意：这个只是模糊定位，准确位置请地图上标注!</span>
+                  <div id="l-map"> <i class="icon-spinner icon-spin icon-large"></i>地图加载中... </div>
+                  <div id="r-result">
+                    <input type="text" id="lng" name="lng" value="114.397767" />
+                    <input type="text" id="lat" name="lat" value="30.528571" />
+                  </div>
+                </div>
+              </div>
+			<div class="control-group">
+                <label class="control-label" for="info">编辑器:</label>
+                <div class="controls">
+                    <textarea id="info" name="info" style="width: 50%; height: 150px" class="editors"></textarea>
+                  			</div> 
+              </div>
+              <div class="form-actions">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <a class="btn" href="javascript:history.back();">取消</a> </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--地图默认标注坐标-->
+<script type="text/javascript">
+		        $(function () {
+            var op = {
+                lat: 30.528571,
+                lng: 114.397767,
+                adr: "湖北省武汉市洪山区邮科院路"
+            }
+            baidu_map(op);
+        });    </script>
+
+
+<include file="Public:footer" />

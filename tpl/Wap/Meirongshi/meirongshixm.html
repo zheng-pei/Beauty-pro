@@ -1,0 +1,72 @@
+<include file="Public:header"/>
+<include file="Meirongshi:meirongshinav"/>
+<!--服务项目列表-->
+ <div class="m_service" id="beautyid" name="{weiwin:$beautyid}">
+ <if condition="$lists eq ''">
+    <div class="mei_nopingjia">
+    <i></i>
+   <p class="fs18">暂无项目记录</p>
+    </div>
+    <else/>   
+  <ul class="m_service_list program" id="load_list">
+  <volist name="lists" id="vo">
+   <li>
+    <a href="{weiwin::U('Meirongshi/fuwuxq',array('beautyid'=>$beautyid,'serviceid'=>$vo['serviceid']))}" id="meirxs">
+     <div class="m_service_logo fl"><i><img src="{weiwin:$vo.smallpic}" /><em class="bq fs18">{weiwin:$vo.classname}</em></i></div>
+       <div class="m_service_pro fr">
+       <div class="m_service_proc">
+       	<p class="clearfix"><i <if condition="$vo['isrecom'] eq 1">class="tjian"</if>></i><b class="fs22 elli">{weiwin:$vo.name}</b></p>
+       <p class="fs18 color_7e elli">{weiwin:$vo.appuser}</p>
+       <h3 class="color_23 price">￥{weiwin:$vo.trueprice}</h3>
+       <div class="fs18 price"><span class="color_bb">{weiwin:$vo.servicetime}分钟</span><b class="color_bb">院线价:<i>￥{weiwin:$vo.origprice}</i></b></div>
+   </div></div></a>
+   </li>
+	</volist>
+  </ul>
+   <p class="fs18 color_a8" id="more_list"></p>
+    </if>  
+ </div> 
+<!--底部菜单--> 
+<script>
+//加载更多
+$(function(){
+ var nowpage=1;
+ var id=$('#beautyid').attr('name');
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+   isOver=false;
+   ++nowpage;
+   $("#more_list").text("加载更多...");
+   $.post("{weiwin::U('Meirongshi/xmload')}",{'nowpage':nowpage,'id':id},function(data){
+    console.log(nowpage); console.log(data);
+     //判断是否有新数据加载
+    var res=eval('('+data+')');
+     var str="";
+       if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var id = res[i]['serviceid'];
+            var urls="index.php?m=Meirongshi&a=fuwuxq&serviceid="+id;
+            var isrecom=res[i]['isrecom'];
+            if(isrecom==1){
+               str+="<li><a href="+urls+" id='meirxs'><div class='m_service_logo fl'><i><img src="+res[i]['smallpic']+" /><em class='bq fs18'>"+res[i]['classname']+"</em></i></div><div class='m_service_pro fr'><div class='m_service_proc'><p class='clearfix'><i class='tjian'></i><b class='fs22 elli'>"+res[i]['name']+"</b></p><p class='fs18 color_7e elli'>"+res[i]['appuser']+"</p><h3 class='color_23 price'>￥"+res[i]['trueprice']+"</h3><div class='fs18 price'><span class='color_bb'>"+res[i]['servicetime']+"分钟</span><b class='color_bb'>院线价:<i>￥"+res[i]['origprice']+"</i></b></div></div></div></a></li>";
+             }else{
+               str+="<li><a href="+urls+" id='meirxs'><div class='m_service_logo fl'><i><img src="+res[i]['smallpic']+" /><em class='bq fs18'>"+res[i]['classname']+"</em></i></div><div class='m_service_pro fr'><div class='m_service_proc'><p class='clearfix'><i></i><b class='fs22 elli'>"+res[i]['name']+"</b></p><p class='fs18 color_7e elli'>"+res[i]['appuser']+"</p><h3 class='color_23 price'>￥"+res[i]['trueprice']+"</h3><div class='fs18 price'><span class='color_bb'>"+res[i]['servicetime']+"分钟</span><b class='color_bb'>院线价:<i>￥"+res[i]['origprice']+"</i></b></div></div></div></a></li>";
+             }
+           
+          }
+           $("#load_list").append(str);
+      }
+      else{
+          $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+       }      
+   }); 
+  }
+ });
+ });
+</script>
+<include file="Public:footer"/>

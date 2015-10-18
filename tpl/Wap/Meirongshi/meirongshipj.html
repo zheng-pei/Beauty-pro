@@ -1,0 +1,75 @@
+<include file="Public:header"/>
+<include file="Meirongshi:meirongshinav"/>
+<!--评价列表-->
+ <!--没有评价列表调用样式-->
+<div class="m_service" id="beautyid" name="{weiwin:$bid}">
+    <if condition="$commentlists eq ''">
+    <div class="mei_nopingjia">
+    <i></i>
+   <p class="fs18">暂无评价记录</p>
+    </div>
+    <else/>        
+     <ul class="m_service_list pinjia" id="load_list"> 
+  <volist name="commentlists" id="vo1">
+   <li>
+    <p class="fs24"><b class="color_a8">手法:<em class="color_23">{weiwin:$vo1.tech}</em></b><b class="color_a8">礼仪:<em class="color_23">{weiwin:$vo1.att}</em></b><b class="color_a8">服务:<em class="color_23">{weiwin:$vo1.manner}</em></b></p>
+    <h3 class="fs22 color_a8">{weiwin:$vo1.comment}</h3>
+    <div><span  class="fs18 color_a8">来自：{weiwin:$vo1.nickname}</span> <b  class="fs18 color_a8">{weiwin:$vo1.createtime|date="Y/n/j H:i:s",###}</b></div>
+   </li>
+ </volist>
+  </ul>
+   <p class="fs18 color_a8" id="more_list"></p>
+    </if>  
+ </div> 
+<!--底部菜单--> 
+<include file="Public:footer"/>
+<script>
+//加载更多
+$(function(){
+ var nowpage=1;
+ var beautyid=$('#beautyid').attr('name');
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+    isOver=false;
+     nowpage++;
+    $("#more_list").text("加载更多...");
+    $.post("{weiwin::U('Meirongshi/loadpjlists')}",{'nowpage':nowpage,'beautyid':beautyid},function(data){
+    // console.log();
+    // console.log(nowpage);
+    // console.log(data);
+     //判断是否有新数据加载
+    var data=eval('('+data+')');
+     var str="";
+        if(data!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<data.length;i++){
+             var createtime=getLocalTime(data[i]['createtime']);
+              str+="<li><p class='fs24'><b class='color_a8'>手法:<em class='color_23'>"+data[i]['tech']+"</em></b><b class='color_a8'>礼仪:<em class='color_23'>"+data[i]['att']+"</em></b><b class='color_a8'>服务:<em class='color_23'>"+data[i]['manner']+"</em></b></p><h3 class='fs22 color_a8'>"+data[i]['comment']+"</h3><div><span  class='fs18 color_a8'>来自："+data[i]['nickname']+"</span><b class='fs18 color_a8'>"+createtime+"</b></div></li>";
+          }
+          $("#load_list").append(str);
+        }else{
+            $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+ });
+ 
+  function getLocalTime(time) {  
+  var t_n_time=new Date(parseInt(time* 1000) );
+  var t_n_year=t_n_time.getFullYear();
+  console.log(t_n_year);
+  var t_n_month=t_n_time.getMonth()+1;
+  console.log(t_n_time.getSeconds());
+  var t_n_date=t_n_time.getDate();
+  var t_n_hour=t_n_time.getHours();
+  var t_n_minute=t_n_time.getMinutes();
+  var t_n_second=t_n_time.getSeconds();
+  var t_n_str=t_n_year+"/"+t_n_month+"/"+t_n_date+" "+t_n_hour+":" +t_n_minute+":"+t_n_second;
+  return t_n_str;
+  } 
+</script>

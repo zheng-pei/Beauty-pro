@@ -1,0 +1,74 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid"> 
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>查看评价信息</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+              <form action="" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+              <div class="control-group">
+                <label for="username" class="control-label">美容师姓名：</label>
+                <div class="controls">
+                  <input type="text" name="beautyname" id="beautyname" class="input-large" data-rule-required="true" readonly value=" {weiwin:$lists.beautyname}" />
+                 </div>
+              </div>
+               
+              <div class="control-group">
+                <label for="pic" class="control-label">服务内容：</label>
+                <div class="controls">
+                  <input type="text" id="servicename" name="address" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists.servicename}" />
+                </div>
+              </div>  
+               <div class="control-group">
+                <label for="pic" class="control-label">手法：</label>
+                <div class="controls">
+                  <input type="text" id="tech" name="tech" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists.tech}" />
+                </div>
+              </div>  
+                 <div class="control-group">
+                <label for="pic" class="control-label">服务：</label>
+                <div class="controls">
+                  <input type="text" id="att" name="att" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists.att}" />
+                </div>
+              </div>     
+                <div class="control-group">
+                <label for="pic" class="control-label">礼仪：</label>
+                <div class="controls">
+                  <input type="text" id="manner" name="manner" class="input-large" data-rule-required="true"  readonly value="{weiwin:$lists.manner}" />
+                </div>
+              </div>  
+              <div class="control-group">
+                <label for="nickname" class="control-label">评价人：</label>
+                <div class="controls">
+                  <input type="text" id="nickname" name="nickname" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists.nickname}" />
+                </div>
+              </div> 
+                <div class="control-group">
+                <label for="content" class="control-label">评价内容：</label>
+                <div class="controls">
+                <textarea cols="20" rows="10" id="content" name="content" class="input-xlarge" data-rule-required="true" style="resize:none" readonly>{weiwin:$lists.comment}</textarea>
+                </div>
+              </div>   
+                <div class="control-group">
+                <label for="pic" class="control-label">评价时间：</label>
+                <div class="controls">
+                  <input type="text" id="createtime" name="createtime" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists.createtime|date="Y-m-d",###}" />
+                </div>
+              </div>                
+          </form>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>
+<include file="Public:footer" />

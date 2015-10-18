@@ -1,0 +1,67 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid"> 
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>服务分类编辑</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+          <form action="{weiwin::U('Servicetype/update')}" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+              <input type="hidden" name="id" value="{weiwin:$vo['id']}">
+              <div class="control-group">
+                <label for="username" class="control-label">服务类型名称</label>
+                <div class="controls">
+                  <input type="text" name="classname" id="classname" class="input-large" data-rule-required="true" data-rule-maxlength="20" value="{weiwin:$vo['classname']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               
+              <div class="control-group">
+                <label for="pic" class="control-label">分类图标：</label>
+                <div class="controls">
+                  <input type="text" id="pic" name="pic" class="input-xlarge" readonly data-rule-required="true" value="{weiwin:$vo['pic']}" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="pic" class="control-label">选中效果图：</label>
+                <div class="controls">
+                  <input type="text" id="selpic" name="selpic" class="input-xlarge" readonly data-rule-required="true" value="{weiwin:$vo['selpic']}" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="password2" class="control-label">分类排序</label>
+                <div class="controls">
+                  <input type="text" name="sort" id="sort" value="{weiwin:$vo['sort']}" class="input-large" data-rule-required="true"/>               
+              </div>
+              <div class="control-group">
+                <label for="status" class="control-label">是否启用：</label>
+                <div class="controls">
+                  <select name="status" id="status">
+                  <option value="1" <if condition="$vo['status'] eq 1">selected="selected"</if>>启用</option>
+                  <option value="2"  <if condition="$vo['status'] eq 2">selected="selected"</if>>禁用</option>
+                  </select>
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+             <div class="form-actions">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <a class="btn" href="javascript:history.back();">取消</a> 
+             </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>
+<include file="Public:footer" />

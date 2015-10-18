@@ -1,0 +1,165 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid"> 
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>添加服务项目</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+          <form action="{weiwin::U('Service/insert')}" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+          	
+          	  <div class="control-group">
+                <label for="area" class="control-label">所属区域</label>
+                <div class="controls">
+                  <select name="areaid" id="areaid" class="input-small"  data-rule-required="true" />
+					<option value="">请选择</option>
+					<volist name="area" id="vo">
+					<option value="{weiwin:$vo.id}">{weiwin:$vo.areaname}</option>
+					</volist>
+				  </select>
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="type" class="control-label">所属分类</label>
+                <div class="controls">
+                  <select name="classid" id="classid" class="input-large"  data-rule-required="true" />
+					<option value="">请选择</option>
+					<volist name="type" id="tp">
+					<option value="{weiwin:$tp.id}">{weiwin:$tp.classname}</option>
+					</volist>
+				  </select>
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="smallpic" class="control-label">上传列表图标：</label>
+                <div class="controls">
+                  <input type="text" id="smallpic" name="smallpic" class="input-xlarge" readonly data-rule-required="true" value="" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="coverpic" class="control-label">上传封面图片：</label>
+                <div class="controls">
+                  <input type="text" id="coverpic" name="coverpic" class="input-xlarge" readonly data-rule-required="true" value="" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label for="name" class="control-label">服务名称</label>
+                <div class="controls">
+                  <input type="text" name="name" id="name" value="" class="input-large" data-rule-required="true"/>
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div> 
+              </div>
+              <div class="control-group">
+                <label for="lab" class="control-label">服务标签选择</label>
+                <div class="controls">
+                 <volist name="servicelab" id="v_lab">
+                  <input type="checkbox" name="lab[]" id="labs" class="input-large" value="{weiwin:$v_lab.id}" />&nbsp;{weiwin:$v_lab.labname}&emsp;
+                  </volist>
+                  <span class="help-inline"></span> </div>
+              </div>
+              
+               <div class="control-group">
+                <label for="servicetime" class="control-label">服务时间(单位：分钟)</label>
+                <div class="controls">
+                  <input type="text" name="servicetime" id="servicetime" value="" class="input-large" data-rule-required="true"/>
+                  <span class="maroon">*</span> <span class="help-inline"></span></div>  
+              </div>
+              <div class="control-group">
+                <label for="origprice" class="control-label">院线价格</label>
+                <div class="controls">
+                  <input type="text" name="origprice" id="origprice" value="" class="input-large" data-rule-required="true"/>
+                  <span class="maroon">*</span> <span class="help-inline"></span></div>  
+              </div>
+              <div class="control-group">
+                <label for="trueprice" class="control-label">服务价格</label>
+                <div class="controls">
+                  <input type="text" name="trueprice" id="trueprice" value="" class="input-large" data-rule-required="true"/>
+                  <span class="maroon">*</span> <span class="help-inline"></span></div>  
+              </div>
+              
+              <div class="control-group">
+                <label for="appuser" class="control-label">适用人群(英文逗号隔开)</label>
+                  <div class="controls">
+                  <textarea name="appuser" id="appuser" class="input-xlarge" cols="20" rows="3" style="resize:none"></textarea>
+                  
+                  <span class="maroon">*</span> <span class="help-inline"></span>  
+                  </div>
+              </div>
+              <div class="control-group">
+                <label for="product" class="control-label">使用产品(英文逗号隔开)</label>
+                <div class="controls">
+                  
+                  <textarea name="product" id="product" class="input-large" cols="20" rows="3" style="height:150px;resize:none"></textarea>
+                  <span class="maroon">*</span> <span class="help-inline"></span>  
+              </div>
+              </div>
+              <div class="control-group">
+                <label for="attention" class="control-label">注意事项(英文逗号隔开)</label>
+                <div class="controls">
+                  
+                  <textarea name="attention" id="attention" class="input-xlarge" cols="20" rows="3" style="height:100px;resize:none"></textarea>
+                  <span class="maroon">*</span> <span class="help-inline"></span>  
+              </div>
+              </div>
+              <div class="control-group">
+                <label for="sort" class="control-label">排序号</label>
+                <div class="controls">
+                  <input type="text" name="sort" id="sort" value="0" class="input-large" data-rule-required="true"/>
+                  <span class="maroon">*</span> <span class="help-inline"></span>  
+              </div>
+              </div>
+              <div class="control-group">
+                <label for="summary" class="control-label">服务概要</label>
+                <div class="controls">
+                  <textarea name="summary" id="summary" class="input-xlarge" cols="20" rows="3" style="resize:none"></textarea>
+              </div>
+              </div>
+              <div class="control-group">
+                <label for="comment" class="control-label">项目介绍</label>
+                <div class="controls">
+                  <textarea name="comment" id="comment" class="xinput-large" cols="20" rows="3" style="width:400px;height:200px;resize:none"></textarea>
+              </div>
+              </div>
+          	 <div class="control-group">
+               <label for="isrecome" class="control-label">是否推荐：</label>
+               <div class="controls">
+                 <select name="isrecom" id="isrecom">
+                 <option value="0">不推荐</option>
+                 <option value="1">推荐</option>
+                 </select>
+             </div>
+              </div>  
+              <div class="control-group">
+                <label for="status" class="control-label">是否启用：</label>
+                <div class="controls">
+                  <select name="status" id="status">
+                  <option value="1">启用</option>
+                  <option value="0">禁用</option>
+                  </select>
+              </div>
+              </div>
+             <div class="form-actions">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <a class="btn" href="javascript:history.back();">取消</a> 
+             </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>
+
+<include file="Public:footer" />

@@ -1,0 +1,154 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<body class="bg_f0">
+<div class="main pd_bo">
+  <div class="myorder">
+    <ul class="myorderlist fs22 border_dcc" id="choose" name="{weiwin:$id}">
+      <li><a href="{weiwin::U('Usercenter/myorder',array('id'=>1))}" <if condition="$id eq 1">class="cur br_rd"</if>>全部订单</a></li>
+      <li><a href="{weiwin::U('Usercenter/myorder',array('id'=>2))}" <if condition="$id eq 2">class="cur br_rd"</if>>待支付订单</a></li>
+      <li><a href="{weiwin::U('Usercenter/myorder',array('id'=>3))}" <if condition="$id eq 3">class=" cur br_rd"</if>>待评价订单</a></li>
+    </ul>
+    <div class="mo_all">
+      <ul class="fs22" id="load_list">
+      <!--如果有订单 -->
+      <volist name="res" id="vo">
+        <li class="border_dcc ">
+          <h2 class="border_e7">美容师：{weiwin:$vo.mrsname}<b class="fr color_fe"><if condition="$vo.status eq 10">待支付<elseif condition="$vo.status eq 20"/>待评价<elseif condition="$vo.status eq 30"/>已完成<elseif condition="$vo.status eq 2"/>已取消</if></b></h2>
+            <!-- 点击订单可以查看订单的信息 -->
+           <a href="{weiwin::U('Usercenter/orders',array('orderid'=>$vo['id']))}">
+          <div class="mei_box">
+            <div class="m_service_logo fl"><i><img src="{weiwin:$vo.smallpic}"></i></div>
+            <div class="m_service_pro fr">
+              <div class="m_service_proc mei_con">
+                <h3 class="elli" id="servicename">{weiwin:$vo.servicename}</h3>
+                <p class="fs18 elli color_88" id="num" name="{weiwin:$vo.num}">订单编号：{weiwin:$vo.num}</p>
+                <p class="color_88 fs18 txt">预约时间：{weiwin:$vo.ordertime}</p>
+              </div>
+            </div>
+          </div>
+          </a>
+          <div class="mei_price color_88 fs18">共1项服务<b class="fr fs18"><i class="color_88">实付：</i>￥{weiwin:$vo.orderprice}元</b></div>
+          <if condition="$vo['status'] eq 10">
+          <form action="{weiwin::U('Order/orderdetail')}" method="post" id="myForm{weiwin:$i}" name="{weiwin:$i}">
+          <input type='hidden' name='isu' value='1'>
+          <input type="hidden" name="orderid" value="{weiwin:$vo['id']}">
+          <a id="submit" onclick="fun({weiwin:$i})" class="zf"><b class="br_rd border_fe color_fe fs22">立即支付</b></a>
+          </form>
+           <elseif condition="$vo['status'] eq 20"/>
+          <a href="{weiwin::U('Usercenter/pingjia',array('beautyid'=>$vo['beautyid'],'serviceid'=>$vo['serviceid'],'orderid'=>$vo['id']))}" id="pingjia" class="zf"><b class="br_rd border_fe color_fe fs22">立即评价</b></a>
+          </if>
+        </li>
+      </volist>
+      <!--没有订单调用样式-->
+          <if condition="($res eq '') and ($id eq 1)">
+           <div class="mei_nopingjia">
+           <i></i>
+           <p class="fs18">暂无该类订单</p>
+           </div>
+          <elseif condition="($res eq '') and ($id eq 2)"/>
+             <div class="mei_nopingjia">
+              <i></i>
+              <p class="fs18">暂无待支付订单</p>
+              </div>
+            <elseif condition="($res eq '') and ($id eq 3)"/>
+              <div class="mei_nopingjia">
+              <i></i>
+              <p class="fs18">暂无待评价订单</p>
+              </div>
+         </if>           
+<!--end-->
+      </ul>
+       <p class="fs18 color_a8" id="more_list"></p>
+    </div>
+  </div>
+ <include file="Public:footer"/>
+<script type="text/javascript">
+  $(function(){
+  var nowpage=1;
+ var id=$('#choose').attr('name');
+ // alert(id);
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+    isOver=false;
+     nowpage++;
+    $("#more_list").text("加载更多...");
+    $.post("{weiwin::U('Usercenter/orderload')}",{'nowpage':nowpage,'id':id},function(data){   
+     //判断是否有新数据加载
+    var res=eval('('+data+')');
+    // console.log(res);
+     var str="";
+     var str11="";
+     var str12="";
+     var str21="";
+     var str22="";
+     var str3="";
+     var str4="";
+        if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var j=nowpage*3+i+1;
+            var status=res[i]['status'];
+            var oid=res[i]['id'];
+            var mrsname=res[i]['mrsname'];
+            var smallpic=res[i]['smallpic'];
+            var servicename=res[i]['servicename'];
+            var num=res[i]['num'];
+            var ordertime=res[i]['ordertime'];
+            var orderprice=res[i]['orderprice'];
+             console.log(oid);
+             //  console.log(orderprice);
+            var urla="__APP__?m=Usercenter&a=orders&orderid="+oid; 
+              var urls="__APP__/Order/orderdetail";   
+            if(status==10){
+        // console.log(res[i]['mrsname']);
+               str11+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>待支付</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+orderprice+"元</b></div><form action="+urls+" method='post' id='myForm"+j+"'><input type='hidden' name='isu' value='1'><input type='hidden' name='orderid' value="+oid+"><a id='submit' onclick='fun("+j+")' class='zf'><b class='br_rd border_fe color_fe fs22'>立即支付</b></a></form></li>";
+                str12+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>待支付</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+orderprice+"元</b></div><form action="+urls+" method='post' id='myForm"+j+"'><input type='hidden' name='isu' value='1'><input type='hidden' name='orderid' value="+oid+"><a id='submit' onclick='fun("+j+")' class='zf'><b class='br_rd border_fe color_fe fs22'>立即支付</b></a></form></li>";
+               
+            }
+
+            if(status==20){
+              var beautyid=res[i]['beautyid'];
+              var serviceid=res[i]['serviceid'];
+              var orderid=res[i]['id'];
+              var url="__APP__?m=Usercenter&a=pingjia&beautyid="+beautyid+"&serviceid="+serviceid+"&orderid="+orderid;
+               str21+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>待评价</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+res[i]['orderprice']+"元</b></div><a href="+url+" id='pingjia' class='zf'><b class='br_rd border_fe color_fe fs22'>立即评价</b></a></li>";
+                str22+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>待评价</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+orderprice+"元</b></div><a href="+url+" id='pingjia' class='zf'><b class='br_rd border_fe color_fe fs22'>立即评价</b></a></li>";
+            }
+            if(status==30){
+                 str3+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>已完成</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+orderprice+"元</b></div></li>";
+            }  
+            if(status==2){
+                 str4+="<li class='border_dcc'><h2 class='border_e7'>美容师："+mrsname+"<b class='fr color_fe'>已取消</b></h2><a href="+urla+"><div class='mei_box'><div class='m_service_logo fl'><i><img src="+smallpic+"></i></div><div class='m_service_pro fr'><div class='m_service_proc mei_con'><h3 class='elli'>"+servicename+"</h3><p class='fs18 elli color_88'>订单编号："+num+"</p><p class='color_88 fs18 txt'>预约时间："+ordertime+"</p></div></div></div></a><div class='mei_price color_88 fs18'>共1项服务<b class='fr fs18'><i class='color_88'>实付：</i>￥"+orderprice+"元</b></div></li>";
+            } 
+          }
+         if(id==1){
+                str="";
+               str+=str12+str22+str3+str4;            
+             }     
+          if(id==2){
+            str="";
+            str+=str11;
+          }
+          if(id==3){
+             str="";
+            str+=str21;
+          }
+           // console.log(str);
+          $("#load_list").append(str);
+        }else{
+            $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+
+ });
+function fun(i){
+    var id = '#myForm' + i;
+    $(id).submit();
+}
+</script>

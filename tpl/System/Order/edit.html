@@ -1,0 +1,136 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid"> 
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>编辑订单信息</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+          <form action="{weiwin::U('Order/update')}" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+              <input type="hidden" name="id" value="{weiwin:$lists['id']}">
+              <input type="hidden" name="serviceid" value="{weiwin:$lists['serviceid']}">
+               <input type="hidden" name="beautyid" value="{weiwin:$lists['beautyid']}">
+               <input type="hidden" name="nowstatus" value="{weiwin:$lists['status']}">
+              <div class="control-group">
+                <label for="username" class="control-label">订单编号</label>
+                <div class="controls">
+                  <input type="text" name="num" id="num" class="input-large" data-rule-required="true" value="{weiwin:$lists['num']}" readonly />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">订单用户</label>
+                <div class="controls">
+                  <input type="text" name="truename" id="truename" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists['truename']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">手机号码</label>
+                <div class="controls">
+                  <input type="text" name="phone" id="phone" class="input-large" data-rule-required="true" data-rule-maxlength="100" readonly value="{weiwin:$lists['phone']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">预定时间</label>
+                <div class="controls">
+                  <input type="text" name="ordertime" id="ordertime" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists['ordertime']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">分配美容师</label>
+                <div class="controls">
+                  <input type="text" name="beautyname" id="beautyname" class="input-large" data-rule-required="true" readonly data-rule-maxlength="100" value="{weiwin:$beautyname}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">服务内容</label>
+                <div class="controls">
+                  <input type="text" readonly name="servicename" id="servicename" class="input-large" data-rule-required="true"  value="{weiwin:$servicename}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">订单金额[单位：元]</label>
+                <div class="controls">
+                  <input type="text" name="trueprice" id="trueprice" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists['trueprice']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">抵扣积分数量</label>
+                <div class="controls">
+                 {weiwin:$lists['usepoint']} 个
+                 </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">实付金额[单位：元]</label>
+                <div class="controls">
+                  <input type="text" name="orderprice" id="orderprice" class="input-large" data-rule-required="true" value="{weiwin:$lists['orderprice']}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label class="control-label">下单时间</label>
+                <div class="controls">
+                  <input type="text" name="createtime" id="url" class="input-large" data-rule-required="true" readonly value="{weiwin:$lists['createtime']|date='Y-m-d',###}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label for="status" class="control-label">订单状态</label>
+                <div class="controls"> 
+                <font color="red">            
+                   <if condition="$lists['status'] eq 10">等待支付
+                   <elseif condition="$lists['status'] eq 20"/>支付成功
+                   <elseif condition="$lists['status'] eq 30"/>已评价
+                   <elseif condition="$lists['status'] eq 2"/>取消订单
+                  </if> 
+                </font>
+                 </div>
+              </div>
+               <div class="control-group">
+                <label for="remark" class="control-label">订单状态说明：</label>
+                <div class="controls">
+                 <textarea id="remark" name="remark"  class="input-xxlarge">{weiwin:$lists.remark}</textarea>
+                   <span class="help-inline"></span> </div>
+              </div>
+             <div class="form-actions">
+             <!-- 编辑后新的状态 -->
+                  <input type="hidden" name="newstatus" id="newstatus" value="{weiwin:$lists['status']}">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <!-- 没有支付，显示保存，取消，返回 -->
+                <if condition="$lists['status'] eq 10">
+                  <button type="button" data-loading-text="提交中..." class="btn btn-danger" onclick="formsubmit(2)">取消订单</button>
+                  <!-- 如果支付成功，显示已发货|已取货，保存，返回 -->
+                <elseif condition="$lists['status'] eq 20" />
+                  <button type="button" data-loading-text="提交中..." class="btn btn-warning" onclick="formsubmit(2)">取消订单</button>
+                </if>
+                <a class="btn" href="javascript:history.back();">返回</a> 
+             </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>
+<include file="Public:footer" />
+<script type="text/javascript">
+  function formsubmit(status){
+    // 如果没有支付还是已经支付
+    if(status==2){
+       var tips="是否取消当前订单？"; 
+    }
+    if(window.confirm(tips)){
+       // alert("确定");
+          $('input[name=newstatus]').val(status);
+       return true;
+    }else{
+       // alert("取消");
+       return false;
+   }
+}
+</script>

@@ -1,0 +1,123 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span12"> 
+              <h3><i class="icon-table"></i>会员管理</h3>
+            </div>
+          </div>
+          <div class="box-content" style="padding:0; width:100%;">
+            <form action="" method="post" class="form-horizontal form-horizontal-s" id="searchform">
+							<div class="row-fluid">
+								<div class="span2">
+									<div class="control-group">
+										<label  class="control-label" style="width:80px;">昵称</label>
+										<div class="controls" style="margin-left:90px;">
+											<input type="text" name="nickname" value="{weiwin:$nickname}" class="input-small" />
+										</div>
+									</div>
+								</div>
+                                <div class="span2">
+                                	<div class="control-group">
+										<label  class="control-label" style="width:80px;">真实姓名</label>
+										<div class="controls" style="margin-left:90px;">
+											<input type="text" name="truename" value="{weiwin:$truename}" class="input-small" />
+										</div>
+									</div>
+								</div>
+                               <div class="span2">
+									<div class="control-group">
+										<label  class="control-label" style="width:80px;">手机号码</label>
+										<div class="controls" style="margin-left:90px;">
+											<input type="text" name="phone" value="{weiwin:$phone}" class="input-small" />
+										</div>
+									</div>
+								</div>
+					<div class="span2">
+					<div class="control-group">
+                    	<label  class="control-label" style="width:80px;">微信号</label>
+                    <div class="controls" style="margin-left:90px;">
+                      <input type="text" name="openid" value="{weiwin:$openid}" class="input-small" />
+                    </div>
+                  </div>
+				</div>
+        <div class="span4 control-group">
+                                <if condition="in_array('1',$operationarr)">
+                                  <!--  <button class="btn" id="tg_OrderExport"><i class="icon-cloud-download"></i>导出所有记录</button>-->
+                                </if>
+                  <button type="button" class="btn" id="searchsubmit"><i class="icon-search"></i>查询</button>
+                </div>
+							</div>
+							<hr />
+							<div class="row-fluid">
+								
+                                <div class="span8 control-group hide" style="text-align:right;"> <a class="btn" href="{weiwin::U('Member/add')}"><i class="icon-plus"></i>添加会员</a> <a class="btn" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a> </div>
+							</div>
+						</form>
+            <div class="row-fluid dataTables_wrapper">
+              <table id="listTable" class="table table-bordered table-hover dataTable unline">
+                <thead>
+                  <tr>
+                   
+                     <th class="span2">昵称</th>
+                    <th class="span2">真实姓名</th>
+                    <th class="span2">头像</th>
+                    <th class="span2">电话</th>
+                    <th class="span2">微信号</th>
+                    <th class="span2">积分</th>
+                    <th class="span2">注册时间</th>
+                    <th class="span4">操作</th>
+                  </tr>
+                </thead>
+                <volist name="list" id="vo">
+                <tr>
+                 
+                  <td>{weiwin:$vo.nickname}</td>
+                  <td>{weiwin:$vo.truename}</td>
+                  <td><if condition="$vo['pic'] neq ''"><img src="{weiwin:$vo.pic}" width="50" height="40" /></if></td>
+                  <td>{weiwin:$vo.phone}</td>
+                   <td>{weiwin:$vo.openid}</td>
+                  <td>{weiwin:$vo.point}</td>
+                  <td>{weiwin:$vo.createtime|date="Y-m-d H:i:s",###}</td>
+                  <td>
+                 <div class="dropdown" style="display:inline-block; width:45%;"> 
+                    <a href="#" data-toggle="dropdown" class="btnck btn-default dropdown-toggle">查看<span class="caret"></span></a>
+                          <ul class="dropdown-menu" style="min-width:100px;">
+                            <li><a href="{weiwin::U('Member/signlist',array('memberid'=>$vo['id']))}">查看签到记录</a></li>
+                          </ul>
+                 </div>
+                 <div class="dropdown" style="display:inline-block; width:45%;"> 
+                    <a href="#" data-toggle="dropdown" class="btnck dropdown-toggle">编辑<span class="caret"></span></a>
+                          <ul class="dropdown-menu" style="min-width:100px; left:-60%;">
+                          	<li><a href="{weiwin::U('Member/edit',array('id'=>$vo['id']))}">编辑会员信息</a></li>
+                          </ul>
+                 </div>    
+                 </td>
+                </tr>
+                </volist>
+              </table>
+             <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function () {
+            $('#tg_OrderExport').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Member/daochu')}");  
+                $("#searchform").submit();
+            });
+			$('#searchsubmit').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Member/index')}");  
+                $("#searchform").submit();
+            });
+        });
+</script>
+<include file="Public:footer" />
+<!-- 菜单区域  -->

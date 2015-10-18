@@ -1,0 +1,92 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<body class="bg_f0">
+<div class="main pd_bo">
+  <div class="m_app">
+   <div class="m_news bg_ff border_dcc" id="mnews">
+    <ul class="br_rd border_fe" id="choose" name="{weiwin:$i}">
+      <li  <if condition="$i eq 1"> class="cur"</if>><a href="{weiwin::U('Usercenter/message',array('id'=>1))}"　name="v1" class="fs24">未读消息</a></li>
+      <li <if condition="$i eq 2"> class="cur"</if>><a href="{weiwin::U('Usercenter/message',array('id'=>2))}" name="v2" class="fs24">已读消息</a></li>
+    </ul>
+   </div>
+    <ul class="m_applist" id="load_list">
+    <volist name="res" id="vo">
+     <li class="border_dcc">
+     <a href="{weiwin::U('Usercenter/orderstatus',array('orderid'=>$vo['orderid']))}">
+     <h2 class="fs24">订单状态：<i class="color_fe"><if condition="($vo['orderstatus'] eq 20) OR ($vo['orderstatus'] eq 30)">支付成功<elseif condition="$vo['orderstatus'] eq 10"/>等待支付</if></i><b class="color_88 fr">{weiwin:$vo.createtime|date="Y/n/j H:i:s",###}</b></h2>
+       <dl class="fs20">
+         <dd class="color_a8 elli">预 约 人 ：{weiwin:$vo.truename}</dd>
+         <dd class="color_a8 elli">预约电话：{weiwin:$vo.phone}</dd>
+         <dd class="color_a8 elli">订单编号：{weiwin:$vo.num}</dd>
+       </dl>
+      <div class="ck fs18">立即查看</div></a>
+     </li>
+   </volist>
+    <!--没有订单调用样式-->
+          <if condition="($res eq '') and ($i eq 1)">
+           <div class="mei_nopingjia">
+           <i></i>
+           <p class="fs18">暂无未读消息</p>
+           </div>
+         <elseif condition="($res eq '') and ($i eq 2)"/>
+             <div class="mei_nopingjia">
+           <i></i>
+           <p class="fs18">暂无已读消息</p>
+           </div>
+         </if>           
+<!--end-->
+    </ul>
+     <p class="fs18 color_a8" id="more_list"></p>
+  </div>
+  <!--底部-->
+<include file="Public:footer"/>
+<script type="text/javascript">
+//加载更多
+$(function(){
+ var nowpage=1;
+ var id=$('#choose').attr('name');
+ // alert(id);
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+    isOver=false;
+     nowpage++;
+    $("#more_list").text("加载更多...");
+    $.post("{weiwin::U('Usercenter/messageload')}",{'nowpage':nowpage,'id':id},function(data){   
+     //判断是否有新数据加载
+    var res=eval('('+data+')');
+     var str="";
+        if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var id=res[i]['orderid'];
+            var urls="index.php?m=Usercenter&a=orderstatus&orderid="+id;
+            var status=res[i]['orderstatus'];
+            var createtime=getLocalTime(res[i]['createtime']);
+          str+="<li class='border_dcc'><a href="+urls+"><h2 class='fs24'>订单状态：<i class='color_fe'>支付成功</i><b class='color_88 fr'>"+createtime+"</b></h2><dl class='fs20'><dd class='color_a8 elli'>预 约 人 ："+res[i]['truename']+"</dd><dd class='color_a8 elli'>预约电话："+res[i]['phone']+"</dd><dd class='color_a8 elli'>订单编号："+res[i]['num']+"</dd></dl><div class='ck fs18'>立即查看</div></a></li>";
+          }
+          $("#load_list").append(str);
+        }else{
+            $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+ });
+ function getLocalTime(time) {  
+  var t_n_time=new Date(parseInt(time* 1000) );
+  var t_n_year=t_n_time.getFullYear();
+  console.log(t_n_year);
+  var t_n_month=t_n_time.getMonth()+1;
+  console.log(t_n_time.getSeconds());
+  var t_n_date=t_n_time.getDate();
+  var t_n_hour=t_n_time.getHours();
+  var t_n_minute=t_n_time.getMinutes();
+  var t_n_second=t_n_time.getSeconds();
+  var t_n_str=t_n_year+"/"+t_n_month+"/"+t_n_date+" "+t_n_hour+":" +t_n_minute+":"+t_n_second;
+  return t_n_str;
+  } 
+</script>

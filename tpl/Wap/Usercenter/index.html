@@ -1,0 +1,70 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<body class="bg_f0">
+ <div class="main pd_bo">
+  <header>
+    <div class="gr_center">
+     <div class="gr_tx" style="text-align:center"><i>
+     <!-- 头像来自微信的头像-->
+     <if condition="$member['pic'] neq ''">
+     <img src="{weiwin:$member['pic']}" alt="头像"/>
+     <else/><b class="wtx" >暂无头像</b>
+   </if>
+     </i></div>
+     <p class="color_ff fs22">{weiwin:$member.nickname}</p>
+     <p class="color_ff fs22">{weiwin:$member.phone}</p>
+     <ul class="gr_coupons">
+     <li><a href="{weiwin::U('Usercenter/mypoint')}"><i class="fl"><img src="{weiwin::RES}/images/icon17.png" /></i><span class="fl fs22">我的积分: {weiwin:$member.point}</span></a></li>
+     <li><a href="#"><i class="fl"><img src="{weiwin::RES}/images/icon18.png" /></i><span class="fl fs22">累积签到：{weiwin:$count}次</span></a></li>
+    </ul>
+    </div>
+  </header>
+  <center>
+ <ul class="gr_list fs22">
+   <li><a href="{weiwin::U('Usercenter/message')}">
+   <div class="gr_icon"><span class="fl" id="xiaoxi">消息中心</span><if condition="$xiaoxi gt 0"><b class='fl cur'>{weiwin:$xiaoxi}</b></if></div></a></li>
+    <li><a href="javascript:;" id="qiandao">
+   <div class="gr_icon"><span class="fl">点击签到</span></div></a></li>
+   <li><a href="{weiwin::U('Usercenter/myorder')}">
+   <div class="gr_icon"><span class="fl">订单管理</span><b class="fl"></b></div></a></li>
+   <li><a href="{weiwin::U('Usercenter/memberxinxi')}">
+   <div class="gr_icon"><span class="fl">个人信息</span><b class="fl"></b></div></a></li>
+    <li><a href="{weiwin::U('Usercenter/mypoint')}">
+   <div class="gr_icon"><span class="fl">我的积分</span><b class="fl"></b></div></a></li>
+    <li><a href="{weiwin::U('Usercenter/myorder',array('id'=>3))}">
+     <div class="gr_icon"><span class="fl" id="dpj">待评价</span><if condition="$dpj gt 0"><b class='fl cur'>{weiwin:$dpj}</b></if></div></a></li>
+ </ul>
+  </center>
+  <script>
+  $(function(){
+    var str="";
+    $('#qiandao').click(function(){     
+         $.ajax({
+            url: "{weiwin::U('Usercenter/qiandao')}",
+            type: "POST",
+            success:function(data){ 
+              if(data>0){
+                 // 如果结果成功 
+                 str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_5.jpg' /><b class='fl fs24'>亲！签到成功</b></div><h2><a href='javascript:location.reload();' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+                 $(document.body).append('<div class="bg_fix"></div>');
+                 $('.bg_f0').append(str);
+                 $('.yuyuelayer a').click(function(){
+                 $('.bg_fix').hide();
+                 $('.yuyuelayer').addClass('none')
+                });
+              }else{
+                    str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！您已经签到过</b></div><h2><a href='javascript:location.reload();' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+                 $(document.body).append('<div class="bg_fix"></div>');
+                 $('.bg_f0').append(str);
+                 $('.yuyuelayer a').click(function(){
+                 $('.bg_fix').hide();
+                 $('.yuyuelayer').addClass('none')
+                });
+              }     
+            }
+        });
+    });      
+});  
+</script>
+  <!--底部菜单--> 
+ <include file="Public:footer"/>

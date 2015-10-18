@@ -1,0 +1,96 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="{weiwin::RES}/js/common.js" ></script>
+<body class="bg_f0">
+<div class="main pd_bo"> 
+<form action="{weiwin::U('Order/tijingdan',array('classid'=>$classid,'serviceid'=>$serviceid))}" method="post">
+<input type="hidden" name="serviceid" value="{weiwin:$serviceid}" id="serviceid">
+ <input type="hidden" name="beautyid" value="{weiwin:$firstid}" id="xz_mei">
+  <!--选择美容师列表-->
+  <div class="meilist" id="meilist">
+    <ul id="load_list">
+    <volist name="res" id="vo">
+    <li <if condition="$i eq 1">class="cur"</if> date-id="{weiwin:$vo['id']}">
+      <div class="mei_box"><div class="m_service_logo fl"><img src="{weiwin:$vo['pic']}" /><b class="check checkon"></b></div><div class="m_service_pro fr">
+      <a href="{weiwin::U('Meirongshi/meirongshixm',array('id'=>$vo['id']))}"><div class="m_service_proc mei_con">
+          	<h3><span class="fs22">{weiwin:$vo.name}<if condition="$vo['isrecom'] eq 1"><img src="{weiwin::RES}/images/jian02.png" /></if>
+          	</span><b class="fs18">{weiwin:$vo.address}</b></h3>
+            <p class="fs18"><b>手法:<em class="color_23">{weiwin:$vo.tech}</em></b><b>服务:<em class="color_23">{weiwin:$vo.att}</em></b><b>礼仪:<em class="color_23">{weiwin:$vo.manner}</em></b></p>
+            <p class="color_88 fs18 txt">{weiwin:$vo.comment}</p>
+          </div>
+        </div>
+      </div>
+      <div class="mei_ping">
+      <dl>
+       <foreach name="vo['labname']" item="vo1">
+	    <dd>{weiwin:$vo1}</dd>
+	  </foreach>     
+    </dl>
+      </div>
+      </a>
+      </li>
+  </volist>
+    </ul>
+     <p class="fs18 color_a8" id="more_list"></p>
+  </div>
+  <!--底部菜单-->
+   <div class="bottom yuyue qd"> <input type="submit" class="fs24 br_rd border_ff color_ff qda" id="submit" value="确定" /></div>
+ </form>
+</div>
+</body>
+<script>
+//加载更多
+$(function(){
+ var nowpage=1;
+ var serviceid=$('#serviceid').val();
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+   isOver=false;
+   nowpage++;
+    $("#more_list").text("加载更多...");
+   $.post("{weiwin::U('Meirongshi/loadchoosemrs')}",{'nowpage':nowpage,'serviceid':serviceid},function(data){
+     //判断是否有新数据加载
+    var res=eval('('+data+')');
+    // console.log(nowpage);
+    // console.log(res);
+     var str="";
+      var str1="";
+      var str2="";
+      var tuijian="{weiwin::RES}/images/jian02.png";
+       if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var id = res[i]['id'];
+            var isrecom=res[i]['isrecom'];
+            var urls="index.php?m=Meirongshi&a=meirongshixm&id="+id;
+            if(isrecom==1){
+               // 字符串1
+               str1="<li date-id="+res[i]['id']+"><div class='mei_box'><div class='m_service_logo fl'><img src="+res[i]['pic']+" /><b class='check checkon'></b></div><div class='m_service_pro fr'><a href="+urls+"><div class='m_service_proc mei_con'><h3><span class='fs22'>"+res[i]['name']+"<img src="+tuijian+"></span><b class='fs18'>"+res[i]['address']+"</b></h3><p class='fs18'><b>手法:<em class='color_23'>"+res[i]['tech']+"</em></b><b>服务:<em class='color_23'>"+res[i]['att']+"</em></b><b>礼仪:<em class='color_23'>"+res[i]['manner']+"</em></b></p><p class='color_88 fs18 txt'>"+res[i]['comment']+"</p></div></div></div><div class='mei_ping'><dl>";
+            }else{
+                str1="<li date-id="+res[i]['id']+"><div class='mei_box'><div class='m_service_logo fl'><img src="+res[i]['pic']+" /><b class='check checkon'></b></div><div class='m_service_pro fr'><a href="+urls+"><div class='m_service_proc mei_con'><h3><span class='fs22'>"+res[i]['name']+"</span><b class='fs18'>"+res[i]['address']+"</b></h3><p class='fs18'><b>手法:<em class='color_23'>"+res[i]['tech']+"</em></b><b>服务:<em class='color_23'>"+res[i]['att']+"</em></b><b>礼仪:<em class='color_23'>"+res[i]['manner']+"</em></b></p><p class='color_88 fs18 txt'>"+res[i]['comment']+"</p></div></div></div><div class='mei_ping'><dl>";
+            }
+            // console.log(res[i]['labname']);
+           var labcount=res[i]['labname'].length;
+                str2="";
+                for(var j=0;j<labcount;j++){
+                  // 字符串2
+                  str2+="<dd>"+res[i]['labname'][j]+"</dd>";
+                }
+          
+            // 总的字符串
+            str+=str1+str2+"</dl></div></a></li>";
+          }
+           $("#load_list").append(str);
+      }
+      else{
+          $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+       }      
+   }); 
+   }
+ });
+ });
+</script>
+</html>

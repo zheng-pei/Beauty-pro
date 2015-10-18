@@ -1,0 +1,102 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<!-- 我的积分的公共导航 -->
+<body class="bg_f0">
+<div class="main pd_bo">
+ <header class="mp_h">
+  <div class="mp_h1">
+   <h3 class="fs26">我的积分</h3><p class="fs40 elli">{weiwin:$point}</p></div>
+ </header>
+  <div class="my_zl bg_ff fs24">
+  <ul id="choose" name="{weiwin:$i}">
+   <li <if condition="$id eq 1">class="select"</if>><a href="{weiwin::U('Usercenter/mypoint',array('id'=>1))}" class="br_rd">积分消费记录</a></li>
+   <li <if condition="$id eq 2">class="select"</if>><a href="{weiwin::U('Usercenter/mypoint',array('id'=>2))}" class="br_rd">积分获取记录</a></li>
+  </ul>
+  </div>
+  <div class="my_data">
+    <ul id="load_list">
+    <volist name="res" id="vo">
+    <if condition="$vo['point'] gt 0">
+    <li>
+    <!-- 显示订单编号和积分消费情况 -->
+      <div class="my_data_left"><h4 class="elli fs24">{weiwin:$vo.comment}</h4><p class="fs22 color_a8">{weiwin:$vo.createtime|date="Y-m-d",###}</p></div>
+      <div class="my_data_right fs22"><if condition="($vo['eventtype'] eq 2) and ($id eq 1)">{weiwin:$vo.point}<elseif condition="($vo['eventtype'] neq 2) and ($id eq 2)"/>+{weiwin:$vo.point}</if>积分</div>
+    </li>
+    </if>
+    </volist>
+     <!--没有积分的消息调用样式-->
+          <if condition="($res eq '') and ($id eq 1)">
+           <div class="mei_nopingjia">
+           <i></i>
+           <p class="fs18">暂无积分消费记录</p>
+           </div>
+            <elseif condition="($res eq '') and ($id eq 2)"/>
+               <div class="mei_nopingjia">
+                <i></i>
+               <p class="fs18">暂无积分获取记录</p>
+               </div>
+         </if>           
+<!--end-->
+    </ul>
+     <p class="fs18 color_a8" id="more_list"></p>
+  </div>
+</div>
+<include file="Public:footer"/>
+<script type="text/javascript">
+//加载更多
+$(function(){
+ var nowpage=1;
+ var id=$('#choose').attr('name');
+ // alert(id);
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+    isOver=false;
+     nowpage++;
+    $("#more_list").text("加载更多...");
+    $.post("{weiwin::U('Usercenter/pointload')}",{'nowpage':nowpage,'id':id},function(data){   
+     //判断是否有新数据加载
+    var res=eval('('+data+')');
+     var str="";
+        if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var createtime=getLocalTime(res[i]['createtime']);
+            var point=res[i]['point'];
+            var comment=res[i]['comment'];
+            // var eventtype=res[i]['eventtype'];
+            if(point>0){
+               if(id==1){
+                  str+="<li><div class='my_data_left'><h4 class='elli fs24'>"+comment+"</h4><p class='fs22 color_a8'>"+createtime+"</p></div><div class='my_data_right fs22'>"+point+"积分</div></li>";
+              }
+              if(id==2){
+                  str+="<li><div class='my_data_left'><h4 class='elli fs24'>"+comment+"</h4><p class='fs22 color_a8'>"+createtime+"</p></div><div class='my_data_right fs22'> +"+point+"积分</div></li>";
+              }  
+            }       
+          }
+          $("#load_list").append(str);
+        }else{
+            $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+ });
+  function getLocalTime(time) {  
+  var t_n_time=new Date(parseInt(time* 1000) );
+  var t_n_year=t_n_time.getFullYear();
+  console.log(t_n_year);
+  var t_n_month=t_n_time.getMonth()+1;
+  console.log(t_n_time.getSeconds());
+  var t_n_date=t_n_time.getDate();
+  var t_n_hour=t_n_time.getHours();
+  var t_n_minute=t_n_time.getMinutes();
+  var t_n_second=t_n_time.getSeconds();
+  var t_n_str=t_n_year+"/"+t_n_month+"/"+t_n_date+" "+t_n_hour+":" +t_n_minute+":"+t_n_second;
+  return t_n_str;
+  } 
+</script>
+

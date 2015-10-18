@@ -1,0 +1,19 @@
+/* CSS Document */
+
+
+body{ background:url(../images/loginbg.jpg) no-repeat; font-family:"微软雅黑"; height:100%; overflow:hidden;}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px #fff inset; } 
+.main{width:100%; display:table; text-align:center; vertical-align:middle; height:100%; position:fixed;}
+.c1{ width:100%;overflow:hidden; display:table-cell;  position:relative;height:530px;vertical-align:middle;}
+.c2{ text-align:center; margin-bottom:33px;}
+.c3{width:521px; height:317px; background: rgba(255,255,255,0.2); filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr=#20ffffff, endColorstr=#20ffffff); margin:0 auto}
+.c4{width:375px;height:280px;margin:0 auto;padding-top:59px; position:relative}
+.c4 ul{ list-style:none;margin:0;padding:0}
+.c4 ul li{margin-bottom:15px; overflow:hidden;}
+.c4 ul li i{float:right;width:163px; height:41px; display:block; background:#fff; text-align:center; padding-top:10px;}
+.c4 .username,.password,.yzm{width:85%; height:30px; padding:10px 0;float:right;border:0;outline:none;-webkit-appearance:none;font-size:14px;line-height:normal;line-height:30px\9;background:0;}
+.c4 .user{display:block; height:51px; background:#fff url(../images/uicon.png) no-repeat 5% center;}
+.c4 .pass{display:block; height:51px; background:#fff url(../images/picon.png) no-repeat 5% center;}
+.c4 .yanz{display:block;width:52%; height:51px; background:#fff url(../images/yicon.png) no-repeat 10% center;float:left}
+.c4 .yzm{width:72%;}
+.submit{width:100%; background-color:#d40050; height:62px; color:#fff;font-size:24px;border:none;outline:none;font-family:"微软雅黑";margin-top:10px;}

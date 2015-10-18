@@ -1,0 +1,49 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid"> 
+    <div class="row-fluid"> 
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>微信基本设置</h3>
+            </div>
+          
+          </div>
+          <div class="box-content">
+          <form action="{weiwin::U('Weixin/update')}" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+
+           
+              <div class="control-group">
+                <label for="username" class="control-label">AppID(应用ID)</label>
+                <div class="controls">
+                  <input type="text" name="webtitle" id="webtitle" class="input-large" data-rule-required="true" data-rule-maxlength="20" value="{weiwin::C('appid')}" />
+                  <span class="maroon">*</span> <span class="help-inline"></span>
+                </div>
+              </div>
+             
+               <div class="control-group">
+                <label for="password2" class="control-label">AppSecret(应用密钥)</label>
+                <div class="controls">
+                  <input type="text" name="icp" id="icp" value="{weiwin::C('appkey')}" class="input-large" data-rule-required="true"/>
+                 
+              </div>
+              </div>
+              
+             <div class="form-actions">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <a class="btn" href="javascript:history.back();">取消</a> 
+             </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>
+
+
+<include file="Public:footer" />

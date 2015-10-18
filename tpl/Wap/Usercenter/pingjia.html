@@ -1,0 +1,99 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{weiwin::RES}/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/common.js"></script>
+<body class="bg_f0">
+<div class="main pd_bo">
+ <div class="m_pj">
+ <form action="{weiwin::U('Usercenter/pingjiawc')}" method="post">
+  <div class="box border_dcc">
+  <ul class="gr_xingxi fs24">
+   <li>
+   <input type="hidden" name="mrsname" value="{weiwin:$mrsname}">
+   <input type="hidden" name="serviceid" value="{weiwin:$serviceid}">
+   <input type="hidden" name="beautyid" value="{weiwin:$beautyid}">
+   <input type="hidden" name="orderid" value="{weiwin:$orderid}">
+   <div class="border_e7"><span class="indent">美 容 师 :</span><b class="color_88">{weiwin:$mrsname}</b></div></li>
+   <li>
+   <div><span class="indent">服务项目:</span><b class="color_88">{weiwin:$servicename}</b></div></li>
+ </ul></div>
+   <div class="m_pj_level fs24">
+     <div><span>手法：</span><ul class="m_star" id="m_star">
+      <input type="hidden" name="tech" id="tech"　value="" class="pj_star">
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+     </ul></div>
+     <div><span>服务：</span><ul class="m_star" id="m_star1">
+      <input type="hidden" name="att" id="att" value="" class="pj_star1">
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+     </ul></div>
+     <div><span>礼仪：</span><ul class="m_star" id="m_star2">
+      <input type="hidden" name="manner" id="manner" value="" class="pj_star2">
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+      <li><a></a></li>
+     </ul></div>
+     <div class="m_yijian br_rd border_cc">
+     <textarea name="comment" cols="" rows="" placeholder="您的认真评价可以帮助其他用户选择美容师哦！" class="yijian fs18" oninput="check_len($('#text'),$('#num'))" maxlength="50" id="text"></textarea>
+   </div>
+   <p class="fs18 color_88 pd_20">最多可以输入<strong class="color_fe" id="num">50</strong>字</p>
+   </div>
+ </div>
+  <!--底部菜单--> 
+ <footer> 
+  <div class="bottom bg_h yuyue wx">
+   <input type="submit" class="fs24 color_ff bc" id="submit" value="提交" />
+  </div>
+ </footer>
+ </form>
+</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+  // 用户提交了表单
+  $('#submit').click(function(){
+      var tech=$('#tech').val();
+      var manner=$('#manner').val();
+      var att=$('#att').val();
+      var str="";
+      if(tech.length==0) {
+        str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请给手法评分</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+           $(document.body).append('<div class="bg_fix"></div>');
+           $('.bg_f0').append(str);
+           $('.yuyuelayer a').click(function(){
+           $('.bg_fix').hide();
+           $('.yuyuelayer').addClass('none')
+          });   
+          return false;
+        }else if(att.length==0){ 
+           str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请给服务评分</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+           $(document.body).append('<div class="bg_fix"></div>');
+           $('.bg_f0').append(str);
+           $('.yuyuelayer a').click(function(){
+           $('.bg_fix').hide();
+           $('.yuyuelayer').addClass('none')
+          });
+          return false;
+        }else if(manner.length==0){
+            str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请给礼仪评分</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+           $(document.body).append('<div class="bg_fix"></div>');
+           $('.bg_f0').append(str);
+           $('.yuyuelayer a').click(function(){
+           $('.bg_fix').hide();
+           $('.yuyuelayer').addClass('none')
+          });  
+          return false;
+        }   
+    });
+});
+</script>
+</html>

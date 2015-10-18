@@ -1,0 +1,40 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{weiwin::RES}/js/common.js" ></script>
+<script type="text/javascript" src="{weiwin::RES}/js/time.js" ></script>
+<body class="bg_f0">
+<div class="main pd_bo">
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+      <li class="border_e7">
+      <div ><span>订单信息</span><b class="color_fe fr"><if condition="$res['status'] eq 10">等待支付<elseif condition="$res['status'] eq 20"/>支付成功<elseif condition="$res['status'] eq 30"/>已完成<elseif condition="$res['status'] eq 2"/>已取消</if></b></div>
+      </li>
+      <li class="border_e7">
+        <div><span>订单编号</span><b class="color_88 fr">{weiwin:$res.num}</b></div>
+        </li>
+      <li>
+        <div><span>订单金额</span><b class="color_88 fr">{weiwin:$res.orderprice}元</b></div>
+        </a> </li>
+    </ul>
+  </div>
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+      <li class="border_e7">
+        <div ><span>预约顾客</span><b class="color_88 fr">{weiwin:$res.truename}</b></div>
+      </li>
+      <li class="border_e7">
+        <div><span>联系方式</span><b class="color_88 fr">{weiwin:$res.phone}</b></div>
+        </li>
+      <li class="border_e7">
+        <div><span>服务时间</span><b class="color_88 fr">{weiwin:$res.ordertime}</b></div>
+       </li>
+      <li class="border_e7">
+        <div><span>美容师</span><b class="color_88 fr">{weiwin:$mrsname}</b></div>
+        </a> </li>
+      <li>
+        <div><span>服务项目</span><b class="color_88 fr">{weiwin:$servicename}</b></div>
+      </li>
+    </ul>
+  </div>
+</div>
+<include file="Public:footer"/>

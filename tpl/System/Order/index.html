@@ -1,0 +1,268 @@
+<include file="Public:header"/> 
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/datepicker.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/daterangepicker.css" media="all" />
+<script type="text/javascript" src="{weiwin::RES}/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/category2.js"></script>
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/datepicker.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{weiwin::RES}/css/daterangepicker.css" media="all" />
+<script type="text/javascript" src="{weiwin::RES}/js/moment_min.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/daterangepicker.js"></script>
+
+<div id="main">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="box">
+                        <div class="box-title" style="width:100%;">
+                            <div class="span10">
+                                <h3><i class="icon-table"></i>订单管理</h3>
+                            </div>
+                        </div>
+                        <div class="box-content" style="padding:0; width:100%;">
+                            <div class="row-fluid" style="margin-top:10px;"> 
+                                <form action="" method="post" class="form-horizontal" id="searchform">
+                                	<input id="p" name="p" type="hidden" value="{weiwin:$p}"/>
+                                    <input id="num" name="num" type="text" class="input-large" placeholder="订单编号" value="{weiwin:$num}"/>
+                                    <input id="truename" name="truename" type="text" class="input-small" placeholder="订单用户" value="{weiwin:$truename}"/> 
+                                    <input id="phone" name="phone" type="text" class="input-small" placeholder="手机号码" value="{weiwin:$phone}"/> 
+                                    <select name="status" class="input-medium" id="status">
+                                    	<option value="0" selected>订单状态</option>
+                                        <option value="2" <if condition="$status eq '2'">selected='selected'</if>>已取消</option>
+                                        <option value="10" <if condition="$status eq '10'">selected='selected'</if>>待支付</option>
+                                        <option value="20" <if condition="$status eq '20'">selected='selected'</if>>已支付</option>
+                                        <option value="30" <if condition="$status eq '30'">selected='selected'</if>>已评价</option>                                
+                                    </select>
+                                     <select name="isread" class="input-medium" id="status">
+                                       <option value="2" selected="selected">是否查看</option>
+                                        <option value="0" <if condition="$isread eq '0'">selected='selected'</if>>未查看</option>
+                                        <option value="1" <if condition="$isread eq '1'">selected='selected'</if>>已查看</option>                                                                  
+                                    </select>
+                                   <input type="text" class="input-xlarge daterangepick" readonly value="{weiwin:$date|default='时间段'}" name="date" id="date" />
+
+                                   <button type="button" class="btn" id="searchsubmit"><i class="icon-search"></i>查询</button>
+                                </form>
+                                 <script type="text/javascript">
+									 new CS("brandid", "carid","modelid", '{weiwin:$brandid}', '{weiwin:$carid}', '{weiwin:$modelid}', '{weiwin:$csstr}');
+								</script>
+                            </div>
+                            <hr/>
+                            <div class="row-fluid">
+                              <div class="span8 control-group"> <a class="btn" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a> </div>
+                            </div>
+                            <div class="row-fluid dataTables_wrapper">
+                                <form action="" method="post" class="form-horizontal">
+                                    <table id="listTable" class="table table-bordered table-hover  dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th>序号</th>
+                                                <th>订单编号</th>
+                                                <th style="min-width:50px;">订单用户</th>
+                                                <th>手机号码</th>
+                                                <th>预定时间</th>
+                                                <th>分配美容师</th>
+                                                <th>服务内容</th>
+                                                <th>订单金额</th>
+                                                <th>实付金额</th>
+                                                <th>下单时间</th>
+                                                <th style="min-width:50px;">订单状态</th>
+                                                <th>是否查看</th>
+                                                <th style="min-width:158px;">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <volist name="lists" id="vo"> 
+                                              <tr>
+                                                <td>{weiwin:$vo.id}</td>
+                                                <td>{weiwin:$vo.num}</td>
+                                                <td>{weiwin:$vo.truename}</td>
+                                                <td>{weiwin:$vo.phone}</td>
+                                                <td>{weiwin:$vo.ordertime}</td>
+                                                <td>{weiwin:$vo.beautyname}</td>
+                                                <td>{weiwin:$vo.servicename}</td>                     
+                                                <td>{weiwin:$vo.trueprice}</td>
+                                                <td>{weiwin:$vo.orderprice}</td>
+                                                <td>{weiwin:$vo.createtime|date='Y/m/d H:i',###}</td>
+                                                <td>
+                                                <if condition="$vo['status'] eq 2">
+							                    <span class="label label-success">取消</span>
+							                    <elseif condition="$vo['status'] eq 10"/>
+							                    <span class="label label-success">待支付</span>
+							                    <elseif condition="$vo['status'] eq 20"/>
+							                    <span class="label label-success">已支付</span>
+							                    <elseif condition="$vo['status'] eq 30"/>
+							                    <span class="label label-success">已评价</span>
+							                     <else />
+							                     </if>
+                                    </td>
+                                      <td> 
+                                      <if condition="$vo['isread'] eq 1">
+                                  <span class="label label-success">已查看</span>
+                                <elseif condition="$vo['isread'] eq 0"/>
+                                 <span class="label label-warning">未查看</span>
+                                </if>
+                                  </td>
+                                    <td>                                  
+                                     <a href="{weiwin::U('Order/edit',array('id'=>
+                        $vo['id']))}" class="btnra" title="编辑">
+                        <i class="icon-edit"></i>
+                        编辑
+                          <!--  <a href="javascript: G.ui.tips.confirm('确定删除？','{weiwin::U("Order/delete",array('id'=>$vo['id']))}')" class="btnra" title="删除"><i class="icon-remove"></i>删除</a> -->
+                                    </td>
+                                  </tr>
+                                  </volist>
+                                  </tbody>
+                                  </table>
+                                </form>
+                                <if condition="$lists neq ''">
+                                <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+                              </if>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="chexiaomodal" class="modal hide fade" tabindex="-3" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="chexiaoform" action="" method="post" class="form-horizontal">
+      <input type="hidden" id="orderid" name="orderid" value="0" />
+      <input type="hidden" id="orderstatus" name="orderstatus" value="0" />
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"><i class="icon-table"></i><tt></tt></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row-fluid"> 
+              <div class="control-group">
+                <label for="cancelcomment" class="control-label">备注：</label>
+                <div class="controls">
+                	<textarea id="cancelcomment" name="cancelcomment"  class="input-xlarge"></textarea>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="chexiaodingdan($('#orderid').val(),$('#orderstatus').val(),$('#cancelcomment').val());">确定</button>
+        </div>
+      </form>
+      
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>
+
+<script type="text/javascript">
+ var _pdata_table_id;
+ var _isoso = false;
+ var _this_page = 1;//当前页
+ var _this_page_count = 0;//总页数
+var _tr = function (mid) {
+	$.post("{weiwin::U('Order/glmember')}",{"id":$("#glid").val(),"memberid":mid},function(data){
+		if(data=="success"){
+			location.reload();
+		}
+	});						
+}
+ var _page = function (_index) {
+       var nick_key,sex_key,phone_key,num_key,true_key;
+       if (_isoso) {
+         nick_key = $("#nick_key").val();
+		 sex_key = $("#sex_key").val();
+		 phone_key = $("#phone_key").val();
+		 num_key = $("#num_key").val();
+		 true_key = $("#true_key").val();
+       }
+        $.post('{weiwin::U("Order/membersearch")}', { "nick_key": nick_key, "sex_key": sex_key,"phone_key": phone_key,"num_key": num_key,"true_key": true_key,"page": _index }, function (data, textStatus) {
+        $("#data-list").html("");
+		$("#data-list").append("<tr><th>&nbsp;</th><th>会员名</th><th>会员号</th><th>真实姓名</th><th>电话</th><th>性别</th></tr>");
+								_this_page_count = parseInt(data.total);
+								_this_page = parseInt(data.page);
+								var sexarr='';
+                                $.each(data.rows, function (index, item) {
+									if(item.sex==1){sexarr='男';}else{sexarr='女';}
+                                    //console.log(index);
+                                  //  var _li_tmp = '<li> <label> <input type="radio" name="check" value="' + item.id + '" onclick=" _tr('+item.id+');" />  ' + item.username+'['+item.num+' '+item.truename+' 电话:'+item.phone+' 性别:'+sexarr+']' + '</label></li>';
+								  var _li_tmp ='<tr><td><input type="radio" name="check" value="' + item.id + '" onclick=" _tr('+item.id+');" /></td><td>' + item.username+'</td><td>'+item.num+'</td><td>'+item.truename+'</td><td>'+item.phone+'</td><td>'+sexarr+'</td></tr>';
+                                    $("#data-list").append(_li_tmp);
+
+                                });
+                                _this_page_count = Math.ceil(data.total / data.size);
+                                $("#count_num").text( data.total );
+                                $("#p_page_str").text("第" + _this_page + "页/共" + _this_page_count + "页");
+                                $("#_soso").removeAttr("disabled")
+                            }, "json");
+                        }
+function soso(){
+	 _isoso = true; $("#_soso").attr("disabled", ""); _page(1);
+}
+  function prevpage() {
+                            if (_this_page - 1 > 0) {
+                                _this_page--;
+                                _page(_this_page);
+                            }
+                        }
+						
+                        function nextpage() {
+                            if (_this_page + 1 <= _this_page_count) {
+                                _this_page++;
+                                _page(_this_page);
+                            }
+                        }
+        $(function () {
+            $('#tg_OrderExport').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Order/daochu')}");  
+                $("#searchform").submit();
+            });
+			$('#searchsubmit').click(function(){
+                $("#searchform").attr("action","{weiwin::U('Order/index')}");  
+                $("#searchform").submit();
+            });
+        });
+
+	function showmember(glid){
+							 
+		$("#myModal #glid").val(glid);
+        $('#myModal').modal('show');
+        _page(1);
+  }
+ //关联会员结束
+ //分派技师开始
+ function fenpai(glid){
+	 	$("#fenpeienmodal #fpglid").val(glid);
+		$('#fenpeienmodal').modal('show');
+ }
+ function fenpaijishi(glid,enid,fuwudate,fuwutime,discomment){
+	 $.post("{weiwin::U('Order/penpaijishi')}",{"id":glid,"enid":enid,"fuwudate":fuwudate,"fuwutime":fuwutime,"discomment":discomment},function(data){
+		if(data=="success"){
+			location.reload();
+		}
+	});	
+ }
+ //撤销订单
+ function chexiao(orderid){
+	$("#chexiaomodal #orderid").val(orderid);
+	$("#chexiaomodal #orderstatus").val('-20');
+	$("#chexiaomodal tt").html('撤销订单');
+	$('#chexiaomodal').modal('show');
+}
+ function wuxiao(orderid){
+	$("#chexiaomodal #orderid").val(orderid);
+	$("#chexiaomodal #orderstatus").val('-10');
+	$("#chexiaomodal tt").html('无效订单');
+	$('#chexiaomodal').modal('show');
+}
+function chexiaodingdan(orderid,orderstatus,cancelcomment){
+	$.post("{weiwin::U('Order/chexiaodingdan')}",{"id":orderid,"status":orderstatus,"cancelcomment":cancelcomment,"unum":$('#unum').val(),"ordernum":$('#ordernum').val(),"mobile":$('#mobile').val(),"truename":$('#truename').val(),"ostatus":$('#ostatus').val(),"deal_time":$('#deal_time').val(),"createtype":$('#createtype').val(),"isfenpei":$('#isfenpei').val(),"brandid":$('#brandid').val(),"carid":$('#carid').val(),"modelid":$('#modelid').val(),"countyid":$('#countyid').val()},function(data){
+		if(data=="success"){
+			//location.reload();
+			$('#searchform').submit();
+		}
+	});	
+}
+    </script>
+<include file="Public:footer"/>

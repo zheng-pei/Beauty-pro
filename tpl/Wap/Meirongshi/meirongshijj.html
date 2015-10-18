@@ -1,0 +1,16 @@
+<include file="Public:header"/>
+<include file="Meirongshi:meirongshinav"/>
+<!--个人简介-->
+ <div class="m_service">
+    <div class="m_jianjie border_dcc">
+    	<p class="color_a8"><if condition="$res['comment'] neq '' ">{weiwin:$res.comment}
+    	<else/>
+		  <div class="mei_nopingjia">
+           <i></i>
+           <p class="fs18">暂无该简介</p>
+           </div>
+    	</if></p>
+    </div>
+ </div> 
+<!--底部菜单--> 
+<include file="Public:footer"/>

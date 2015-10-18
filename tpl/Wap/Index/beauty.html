@@ -1,0 +1,107 @@
+<include file="Public:header"/>
+<script type="text/javascript" src="{weiwin::RES}/js/iscroll.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/common.js"></script>
+<script type="text/javascript" src="{weiwin::RES}/js/yxMobileSlider.js"></script>
+<body class="bg_f0">
+<div class="main pd_bo">
+ <!--banner切换开始-->  
+  <div class="slider">
+  <!-- 项目分类的banner -->
+    <ul>
+      <volist name="bannerlists" id="vo1">
+         <li><a href="{weiwin:$vo1['url']}"><img src="{weiwin:$vo1['pic']}" /></a></li>
+      </volist>
+    </ul>
+  </div>
+  <script>
+    $(".slider").yxMobileSlider({width:640,height:252,during:3000});
+  </script>
+<!--banner切换结束--> 
+<!--推荐列表--> 
+<div class="top_nav_wrap" id="top_scroll">
+ <div class="top_nav" id="sid" name="{weiwin:$id}">
+    <ul>
+      <li <if condition="$id eq 0">class="cur"</if>><a href="{weiwin::U('Index/beauty',array('areaid'=>$areaid,'id'=>0))}"><i class="list01"></i><b>推荐</b></a></li>
+      <volist name="servicelists" id="vo">
+        <li <if condition="$id eq $vo['id']">class="cur"</if>><a href="{weiwin::U('Index/beauty',array('areaid'=>$areaid,'id'=>$vo['id']))}">
+        <i>
+        <!-- 若图片点击则显示第被点击的图片 -->
+        <if condition="$id eq $vo['id']">
+        <img src="{weiwin:$vo.selpic}"/>
+        <else/>
+         <img src="{weiwin:$vo.pic}"/>
+        </if>
+        </i>
+        <b>{weiwin:$vo.classname}</b></a></li>
+      </volist>
+    </ul>
+ </div>
+ </div>
+ <!--推荐的列表，有面部，养生，身体-->
+ <div class="m_service">  
+  <!--服务项目列表，有推荐,面部，养生，身体等-->
+  <ul class="m_service_list" id="load_list">
+  <volist name="lists" id="vo2">
+   <li>
+    <a href="{weiwin::U('Service/service',array('classid'=>$vo2['classid'],'id'=>$vo2['id']))}">
+     <div class="m_service_logo fl"><i><img src="{weiwin:$vo2.smallpic}" /><em class="bq fs18">{weiwin:$vo2.classname}</em></i></div>
+       <div class="m_service_pro fr">
+       <div class="m_service_proc">
+       <p class="fs22 elli">
+       <!-- 显示推荐的图片 -->
+       <i <if condition="$vo2['isrecom'] eq 1">class="tjian"</if>></i>{weiwin:$vo2.name}</p>
+       <p class="fs18 color_7e elli">{weiwin:$vo2.appuser}</p>
+       <h3 class="color_23 price">￥{weiwin:$vo2.trueprice}</h3>
+       <div class="fs18 price"><span class="color_bb">{weiwin:$vo2.servicetime}分钟</span><b class="color_bb">院线价:<i>￥{weiwin:$vo2.origprice}</i></b></div>
+   </div></div></a>
+   </li>
+  </volist>
+  </ul>
+ </div> 
+<p class="fs18 color_a8" id="more_list"></p>
+<include file="Public:footer"/>
+<script>
+//加载更多
+$(function(){
+ var nowpage=1;
+ var id=$('#sid').attr('name');
+ // alert(id);
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+    isOver=false;
+    nowpage++;
+    $("#more_list").text("加载更多...");
+    $.post("{weiwin::U('Index/loadservice')}",{'nowpage':nowpage,'id':id},function(data){
+      // console.log(nowpage);
+      // console.log(data);
+     //判断是否有新数据加载
+        var res=eval('('+data+')');
+        var str="";
+        if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            var id = res[i]['id'];
+            var isrecom=res[i]['isrecom'];
+            var classid=res[i]['classid'];
+            var urls="index.php?m=Service&a=service&classid="+classid+"&id="+id;
+            if(isrecom==1){
+              str+="<li><a href="+urls+"><div class='m_service_logo fl'><i><img src="+res[i]['smallpic']+" /><em class='bq fs18'>"+res[i]['classname']+"</em></i></div><div class='m_service_pro fr'><div class='m_service_proc'><p class='fs22 elli'><i class='tjian'></i>"+res[i]['name']+"</p><p class='fs18 color_7e elli'>"+res[i]['appuser']+"</p><h3 class='color_23 price'>￥"+res[i]['trueprice']+"</h3><div class='fs18 price'><span class='color_bb'>"+res[i]['servicetime']+"分钟</span><b class='color_bb'>院线价:<i>￥"+res[i]['origprice']+"</i></b></div></div></div></a></li>";
+            }else{
+              str+="<li><a href="+urls+"><div class='m_service_logo fl'><i><img src="+res[i]['smallpic']+" /><em class='bq fs18'>"+res[i]['classname']+"</em></i></div><div class='m_service_pro fr'><div class='m_service_proc'><p class='fs22 elli'><i></i>"+res[i]['name']+"</p><p class='fs18 color_7e elli'>"+res[i]['appuser']+"</p><h3 class='color_23 price'>￥"+res[i]['trueprice']+"</h3><div class='fs18 price'><span class='color_bb'>"+res[i]['servicetime']+"分钟</span><b class='color_bb'>院线价:<i>￥"+res[i]['origprice']+"</i></b></div></div></div></a></li>";
+            }
+           
+          }
+           $("#load_list").append(str);
+        }
+        else{
+          $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+ });
+ </script>

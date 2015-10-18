@@ -1,0 +1,51 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<body class="bg_f0">
+ <div class="main pd_bo">
+ <form action="{weiwin::U('Usercenter/save')}" method="post">
+ <div class="box border_dcc">
+ <ul class="gr_xingxi fs22">
+   <li>
+   <div class="border_e7"><span>姓名</span><b class="tinput"><input type="text" id="truename" name="truename" placeholder="请填写预约人称呼" value="{weiwin:$member.truename}"/></b></div></li>
+   <li>
+   <div><span>电话</span><b class="tinput"><input type="text" id="phone" name="phone" placeholder="请填写预约人手机号码" value="{weiwin:$member.phone}"/></b></div></li>
+ </ul></div>
+  <!--底部菜单--> 
+ <footer> 
+  <div class="bottom bg_ff yuyue wd">
+   <input type="submit" id="submit" class="fs24 br_rd border_fe color_fe bc" value="保存信息" />
+  </div>
+ </footer>
+ </form>
+ </div>
+</body>
+<script>
+$(document).ready(function(){
+  // 用户提交了表单
+  $('#submit').click(function(){
+      var username=$('#truename').val();
+      var phone=$('#phone').val();
+      var str="";
+      if(username.length==0) {
+            str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请填写姓名</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+              $(document.body).append('<div class="bg_fix"></div>');
+              $('.bg_f0').append(str);
+              $('.yuyuelayer a').click(function(){
+                  $('.bg_fix').hide();
+                  $('.yuyuelayer').addClass('none')
+              });   
+            return false;
+        }else if(phone.length==0){
+              str+="<div class='poplayer yuyuelayer'><div class='pr_main'><div class='pr_box clearfix'><img src='{weiwin::RES}/images/adv_4.jpg' /><b class='fl fs24'>亲！请填写手机号码</b></div><h2><a href='#' class='br_rd border_fe color_fe'>知道了</a></h2></div></div>";
+              $(document.body).append('<div class="bg_fix"></div>');
+            $('.bg_f0').append(str);
+              $('.yuyuelayer a').click(function(){
+                $('.bg_fix').hide();
+                $('.yuyuelayer').addClass('none')
+              });   
+            return false;
+        }
+    });
+});
+</script>
+</html>

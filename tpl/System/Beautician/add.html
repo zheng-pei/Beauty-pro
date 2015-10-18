@@ -1,0 +1,288 @@
+<include file="Public:header" />
+<script type="text/javascript" src="{weiwin::STATICS}/category.js"></script>
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span10">
+              <h3><i class="icon-plus"></i>添加美容师</h3>
+            </div>
+            <div class="span2"><a class="btn" href="Javascript:history.back();">返回</a></div>
+          </div>
+          <div class="box-content">
+          <form action="{weiwin::U('Beautician/insert')}" method="post" id="form1" name="form1" class="form-horizontal form-validate">
+          	  <input type="hidden" id="serviceid" name="serviceid" value="0"/>
+          	  <div class="control-group">
+                <label for="areaname" class="control-label">所属地区：</label>
+                <div class="controls">
+                  <select name="areaid" id="areaid" class="input-large"  data-rule-required="true" />
+                 </select>
+                  <span class="maroon">*</span> <span class="help-inline"></span>
+               </div>
+              </div>
+              <div class="control-group">
+                <label for="businessname" class="control-label">所属商家：</label>
+                <div class="controls">
+                  <select name="bsid" id="bsid" class="input-large"  data-rule-required="true" />
+                 </select>
+                  <span class="maroon">*</span> <span class="help-inline"></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="beautyname" class="control-label">美容师姓名：</label>
+                <div class="controls">
+                  <input type="text" name="name" id="name" class="input-large" data-rule-required="true" data-rule-maxlength="20" value="" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="pic" class="control-label">上传头像：</label>
+                <div class="controls">
+                  <input type="text" id="pic" name="pic" class="input-xlarge" readonly data-rule-required="true" value="" />
+                  <span class="help-inline">
+                  <button class="btn btn-primary select_img" type="button">选择图片</button>
+                  </span> <span class="help-inline">建议大小(宽150高150)</span> </div>
+              </div>
+              <div class="control-group">
+                <label for="comment" class="control-label">个人介绍：</label>
+                <div class="controls">
+                  <textarea name="comment" id="comment" class="input-xlarge" cols="20" rows="3" style="resize:none"></textarea>
+              </div>
+              <div class="control-group">
+                <label for="lab" class="control-label">标签特征(英文逗号分隔)：</label>
+                <div class="controls">
+                  <input type="text" name="lab" id="lab" class="input-xlarge" data-rule-maxlength="85" data-rule-required="true" value="" />
+                  <span class="maroon">*</span> <span class="help-inline"></span> </div>
+              </div>
+             <div class="control-group">
+                <label class="control-label">服务项目：</label>
+                <div class="controls">
+                  <button type="button" rel="more_graphics_table" class="btn add-on" >选择</button>
+                  <span class="help-inline membername" ></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="techscore" class="control-label">手法评分(格式：0.0)：</label>
+                <div class="controls">
+                 <input type="text" name="tech" id="tech" class="input-large" data-rule-required="true" data-rule-maxlength="40" value="" />
+                   <span class="help-inline"></span> </div>
+              </div>
+              <div class="control-group">
+                <label for="attscore" class="control-label">服务评分(格式：0.0)：</label>
+                <div class="controls">
+                 <input type="text" name="att" id="att" class="input-large" data-rule-required="true" data-rule-maxlength="40" value="" />
+                   <span class="help-inline"></span> </div>
+              </div>
+               <div class="control-group">
+                <label for="mannerscore" class="control-label">礼貌评分(格式：0.0)：</label>
+                <div class="controls">
+                 <input type="text" name="manner" id="manner" class="input-large" data-rule-required="true" data-rule-maxlength="40" value="" />
+                   <span class="help-inline"></span> 
+                </div>  
+              </div>
+              <div class="control-group">
+                <label for="isrecome" class="control-label">是否推荐：</label>
+                <div class="controls">
+                  <select name="isrecome" id="isrecome" class="input-small" >
+                  <option value="0">不推荐</option>
+                  <option value="1">推荐</option>
+                  </select>
+              </div>
+            </div>
+              <div class="control-group">
+                <label for="status" class="control-label">是否启用：</label>
+                <div class="controls">
+                  <select name="status" id="status" class="input-small" >
+                  <option value="1">启用</option>
+                  <option value="0">禁用</option>
+                  </select>
+               </div>
+              </div>
+             <div class="form-actions">
+                <button id="bsubmit" type="submit" data-loading-text="提交中..." class="btn btn-primary">保存</button>
+                <a class="btn" href="javascript:history.back();">取消</a> 
+             </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="add_code" action="" method="post" class="form-horizontal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"><i class="icon-table"></i>项目列表</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row-fluid"> 
+              <div class="span4">
+              	<div class="control-group">
+                <label  class="control-label" style="width:65px;">服务名称:</label>
+                <div class="controls" style="margin-left:70px; padding:0px;">
+                	<input name="nick_key" id="nick_key" type="text" class="input-small" placeholder="输入昵称进行查找" />
+                </div>
+               </div>
+               <div class="control-group">
+                <label  class="control-label" style="width:65px;">服务分类:</label>
+                	<div class="controls" style="margin-left:70px; padding:0px;">
+                	<select name="sex_key" id="sex_key" class="input-small" style="width:108px;">
+                        <option value="">不限</option>
+                        <volist name="stype" id="v_type">
+                        <option value="{weiwin:$v_type.id}">{weiwin:$v_type.classname}</option>
+                        </volist>
+                    </select>
+                    </div>
+               </div>
+              </div>
+              
+              <div class="span4">
+            	
+               <div class="control-group">
+                <div class="controls" style="margin-left:70px; padding:0px;">
+                <input type="button" id="_soso" value="查找" class="btn btn-primary"/>
+                </div>
+               </div>
+              </div>
+              
+          </div>
+          <p></p>
+          <div class="row-fluid">
+            　共有 <span class="red" id="count_num">0</span> 条符合条件
+            <button type="button" class="btnpage btn-mini" id="p_page"><strong>上一页</strong></button>
+            <span id="p_page_str">第1页/共1页</span>
+            <button type="button" class="btnpage btn-mini" id="n_page"><strong>下一页</strong></button>
+            <table class="ul_dataTable" id="data-list">
+            	
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+        </div>
+      </form>
+      
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>
+
+<script type="text/javascript">
+
+                    $(document).ready(function () {
+                        var _pdata_table_id;
+                        var _isoso = false;
+                        var $members =[];
+                        var $serviceids=[];
+                        $("#_soso").click(function () { _isoso = true; $("#_soso").attr("disabled", ""); _page(1) });
+                        $("#data-list input[name='check']").live("click", function () { _tr($(this)); });
+                        var _tr = function (_t) {
+                          var $this = _t;
+                          var $num = $this.attr("n");
+                          var $username = $this.attr("u");
+                          var $id = $this.val();
+                            if(!$this.attr("checked")){
+                                for(var mi=0; mi<$members.length; mi++) {
+                                  if($members[mi] == $id) {
+                                    $members.splice(mi, 1);
+                                    break;
+                                  }
+                                }
+                                for(var ni=0; ni<$serviceids.length; ni++) {
+                                  if($serviceids[ni] == $num+"  "+$username) {
+                                    $serviceids.splice(ni, 1);
+                                    break;
+                                  }
+                                }
+                            }
+                            else{
+                              $members.push($id);
+                              $serviceids.push($num+"  "+$username);
+                            }                           
+                            $('.membername').html($serviceids.join(",")); 
+                            $('#serviceid').val($members.join(",")); 
+							
+                        }   
+                        $("button.add-on").click(function (e) {
+                            e.preventDefault();
+                            $('#myModal').modal('show');
+                            _page(1);
+                        });
+						
+                        $("#p_page").click(function () {
+                            if (_this_page - 1 > 0) {
+                                _this_page--;
+                                _page(_this_page);
+                            }
+                        });
+						
+                        $("#n_page").click(function () {
+                            if (_this_page + 1 <= _this_page_count) {
+                                _this_page++;
+                                _page(_this_page);
+                            }
+                        });
+						
+                        var _this_page = 1;//当前页
+                        var _this_page_count = 0;//总页数
+						
+                        var _page = function (_index) {
+                            var nick_key,sex_key,phone_key,num_key,true_key;
+                            if (_isoso) {
+                                nick_key = $("#nick_key").val();
+								sex_key = $("#sex_key").val();
+								phone_key = $("#phone_key").val();
+								num_key = $("#num_key").val();
+								true_key = $("#true_key").val();
+                            }
+                            $.post('{weiwin::U("Beautician/servicesearch")}', { "nick_key": nick_key, "sex_key": sex_key,"phone_key": phone_key,"num_key": num_key,"true_key": true_key,"page": _index }, function (data, textStatus) {
+                                $("#data-list").html("");
+								$("#data-list").append("<tr><th>&nbsp;</th><th>服务分类</th><th>服务名</th><th>时长</th><th>服务价格</th><th>服务概要</th></tr>");
+								_this_page_count = parseInt(data.total);
+								_this_page = parseInt(data.page);
+								var sexarr='';
+								if(data.rows!=null){
+                                $.each(data.rows, function (index, item) {
+									if(item.sex==1){sexarr='男';}else{sexarr='女';}
+                                    //console.log(index);
+									var mem_ids=$('#serviceid').val().split(",");
+					                  var mem_yes=false;
+					                  for(var j=0;j<mem_ids.length;j++){
+					                    // console.log(mem_ids[j]);
+					                    if(mem_ids[j]==item.id){mem_yes=true;}; 
+					                  }    
+									if(mem_yes){
+										var _li_tmp ='<tr><td><input type="checkbox" checked="checked" name="check" n="' + item.classname + '" u="' + item.name + '" t="' + item.servicetime + '" p="' + item.trueprice + '" sex="'+item.summary+'" address="' + item.address + '" carid="'+item.carid+'" brandid="'+item.brandid+'" modelid="'+item.modelid+'" plate="'+item.plate+'" countyid="'+item.countyid+'" email="'+item.email+'" idcard="'+item.idcard+'" maxscore="'+item.userpoints+'" value="' + item.id + '" checked="checked"  /></td><td>' + item.classname+'</td><td>'+item.name+'</td><td>'+item.servicetime+'</td><td>'+item.trueprice+'</td><td>'+item.summary+'</td></tr>';
+									}else{
+										var _li_tmp ='<tr><td><input type="checkbox" name="check" n="' + item.classname + '" u="' + item.name + '" t="' + item.servicetime + '" p="' + item.trueprice + '" sex="'+item.summary+'" address="' + item.address + '" carid="'+item.carid+'" brandid="'+item.brandid+'" modelid="'+item.modelid+'" plate="'+item.plate+'" countyid="'+item.countyid+'" email="'+item.email+'" idcard="'+item.idcard+'" maxscore="'+item.userpoints+'" value="' + item.id + '"/></td><td>' + item.classname+'</td><td>'+item.name+'</td><td>'+item.servicetime+'</td><td>'+item.trueprice+'</td><td>'+item.summary+'</td></tr>';
+										// var _li_tmp ='<tr><td><input type="checkbox" name="check" n="' + item.num + '" u="' + item.username + '" t="' + item.truename + '" p="' + item.phone + '" sex="'+item.sex+'" address="' + item.address + '" carid="'+item.carid+'" brandid="'+item.brandid+'" modelid="'+item.modelid+'" plate="'+item.plate+'" countyid="'+item.countyid+'" email="'+item.email+'" idcard="'+item.idcard+'" maxscore="'+item.userpoints+'" value="' + item.id + '" /></td><td>' + item.username+'</td><td>'+item.num+'</td><td>'+item.truename+'</td><td>'+item.phone+'</td><td>'+sexarr+'</td></tr>';
+									}
+                                    $("#data-list").append(_li_tmp);
+
+                                });
+								}
+                                _this_page_count = Math.ceil(data.total / data.size);
+                                $("#count_num").text( data.total );
+                                $("#p_page_str").text("第" + _this_page + "页/共" + _this_page_count + "页");
+                                $("#_soso").removeAttr("disabled")
+                            }, "json");
+                        }
+						
+
+                        $("#bsubmit").click(function () {
+                           
+                        });
+                       
+                    })
+					
+	new CS("areaid", "bsid", '{weiwin:$areaid}', '{weiwin:$bsid}', '{weiwin:$csstr}');	 
+                </script>
+<link rel="stylesheet" type="text/css" href="./tpl/static/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./tpl/static/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./tpl/static/kindeditor/lang/zh_CN.js"></script>               
+<include file="Public:footer" />

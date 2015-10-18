@@ -1,0 +1,103 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box"> 
+          <div class="box-title">
+            <div class="span7">
+              <h3><i class="icon-table"></i>美容师管理</h3>
+            </div>
+            <div class="span5"></div>
+          </div>
+          <div class="box-content nozypadding" style="width:100%;">
+           <form action="" method="post" class="form-horizontal form-horizontal-s" id="searchform">
+							 <select name="areanameid" class="input-medium" />
+                      <option value="0">全部区域</option>
+                      <volist name="areaname" id="vo1">
+                      <option value="{weiwin:$vo1['id']}" <if condition="$aid eq $vo1['id']">selected="selected"</if>>{weiwin:$vo1.areaname}</option>
+                      </volist>
+                      </select>&nbsp; &nbsp;    
+               <select name="business" class="input-large" />
+                      <option value="0">全部商家</option>
+                      <volist name="bsid" id="vo2">
+                      <option value="{weiwin:$vo2['id']}" <if condition="$business eq $vo2['id']">selected="selected"</if>>{weiwin:$vo2.name}</option>
+                      </volist>
+                      </select>&nbsp; &nbsp;  
+                 <input type="text" name="beautyname" value="{weiwin:$beautyname}" class="input-large" placeholder="美容师姓名"/>&nbsp; &nbsp; 
+                 <select name="status" class="input-small" />
+                 <option value="2" selected="selected"> 状态</option>
+                  <option value="1" <if condition="$status eq '1'">selected="selected"</if>>启用</option>  <option value="0" <if condition="$status eq '0'">selected="selected"</if>>禁用</option>  </select> 
+                   <select name="isrecom" class="input-medium" />
+                 <option value="2" selected="selected"> 是否推荐</option>
+                  <option value="1" <if condition="$isrecom eq '1'">selected="selected"</if>>推荐</option>  <option value="0" <if condition="$isrecom eq '0'">selected="selected"</if>>不推荐</option>  </select> 
+                <input type="submit" id="dosubmit" name="search" class="btncx" value="搜索" />
+             </form>             
+							<hr />
+            <div class="row-fluid">
+              <div class="span8 control-group"> 
+              <a class="btn" href="{weiwin::U('Beautician/add')}"><i class="icon-plus"></i>添加美容师</a> 
+              <a class="btn" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a> 
+              </div>
+            </div>
+            <div class="row-fluid dataTables_wrapper">
+              <table id="listTable" class="table table-hover table-nomargin table-bordered usertable dataTable">
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>地区</th>
+                    <th>所属商家</th>
+                    <th>姓名</th>
+                    <th>是否推荐</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr> 
+                </thead>
+                <if condition="$lists neq ''">
+                <tbody>
+                <volist name="lists" id="vo">
+                <tr>
+                   <td>{weiwin:$vo.id}</td>
+                    <td>{weiwin:$vo.areaname}</td>
+                    <td>{weiwin:$vo.bsname}</td>
+                    <td>{weiwin:$vo.beautyname}</td>
+                    <td class="statuscg">
+                     <if condition="$vo['isrecom'] eq 1">
+                    <span class="label label-success">推荐</span>
+                     <else />
+                     <span class="label label-warning">不推荐</span>
+                     </if>
+                     </td>
+                    <td>{weiwin:$vo.createtime|date='Y-m-d H:i:s',###}</td>
+                     <td class="statuscg">
+                     <if condition="$vo['status'] eq 1">
+                    <span class="label label-success">启用</span>
+                     <else />
+                     <span class="label label-warning">未启用</span>
+                     </if>
+                     </td>
+                     <td>
+                     <if condition="$vo['status'] eq 1">
+                     <a href="javascript: drop_confirm('确定禁用？','{weiwin::U('Beautician/changestatus',array('id'=>$vo['id'],'status'=>0))}')" class="btnra" title="禁用"><i class="icon-stop"></i>禁用</a>
+                     <else />
+                     <a href="javascript: drop_confirm('确定启用？','{weiwin::U('Beautician/changestatus',array('id'=>$vo['id'],'status'=>1))}')" class="btnra" title="启用"><i class="icon-play"></i>启用</a>
+                     </if>
+                     <a href="{weiwin::U('Beautician/reviewindex',array('beautyid'=>$vo['id']))}" class="btnra" title="查看评价"><i class="icon-edit"></i>查看评价</a>
+                     <a href="{weiwin::U('Beautician/edit',array('id'=>$vo['id']))}" class="btnra" title="编辑"><i class="icon-edit"></i>编辑</a>
+                     <a href="javascript: G.ui.tips.confirm('确定删除？','{weiwin::U("Beautician/delete",array('id'=>$vo['id']))}')" class="btnra" title="删除"><i class="icon-remove"></i>删除</a>
+                    </td>
+                  </tr>  
+                 </volist> 
+                 </tbody>
+               </if>
+              </table>
+              <if condition="$lists neq ''"><div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div></if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Public:footer" />

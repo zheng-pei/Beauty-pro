@@ -1,0 +1,24 @@
+jquery-html5Validate.js api文档：
+
+1.将静态页面my.htmll内的header之间的"html5表单验证"部分拷贝到指定页面header内；
+
+2.在需要验证的form表单标签加上id="html5form" 标识符；
+
+3.给对应的表单元素加上对应的验证规则，以type属性识别，如验证email，则使用type="email",如需验证email或手机号，则使用type="email|tel",其余验证方式同前，如number等，目前支持数字(number),姓名(truename),手机号(tel),邮箱(email),邮编(zipcode),中文字符(cnname),qq号(qq),价格(price);如有其它验证需求请提出来，这边再增加自定义验证方式；
+
+4.关于长度的验证：对数字来说，有min，max两个属性，这里是指数字的具体大小而不是位数；对字符串来说，有data-min，data-max两个属性;
+
+5.对于非空的验证，有required属性表示非空，无则可以为
+空
+
+6.对于添加多个手机号或email等验证，可以加入multiple属性，表单数据可为123@qq.com,123@qq.com
+
+7.demo如下：
+
+<form id="html5form" action="" method="post">
+      	用户名 <input type="text" required maxlength="20" value="wantianming" placeholder="">
+          姓名 <input type="truename" required value="万天明" placeholder="">
+E-mail <input type="email" value="13570303888@qq.com" placeholder="" multiple>
+联系QQ <input type="number" required min="1" value="85405555" placeholder="">
+        <input type="submit">       
+      </form>

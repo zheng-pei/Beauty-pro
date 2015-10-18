@@ -1,0 +1,71 @@
+<include file="Public:header" />
+<div id="main">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="box">
+          <div class="box-title">
+            <div class="span2"> 
+              <h3><i class="icon-table"></i>评论管理<present name="enname">({weiwin:$enname})</present></h3>
+            </div>
+            <div class="fr">
+             <form action="" method="post" class="form-horizontal">
+                <input type="text" name="keywords" id="keywords" class="input-medium" placeholder="会员昵称/编号/姓名" data-rule-required="true" value="{weiwin:$keywords}">
+               
+                  <select name="deal_time" class="input-medium" id="deal_time">
+                                        <option value="0" <eq name="deal_time" value="0">selected='selected'</eq>>全部评论</option>
+                                        <option value="7" <eq name="deal_time" value="7">selected='selected'</eq>>七天内</option>
+                                        <option value="30" <eq name="deal_time" value="30">selected='selected'</eq>>一月内</option>
+                                        <option value="90" <eq name="deal_time" value="90">selected='selected'</eq>>三月内</option>
+                                        <option value="180" <eq name="deal_time" value="180">selected='selected'</eq>>半年内</option>
+                                        <option value="365" <eq name="deal_time" value="365">selected='selected'</eq>>一年内</option>
+                   </select>
+                <input type="submit" name="button" class="btncx" value="查询">
+             </form></div>
+          </div>
+          <div class="box-content nozypadding" style="width:100%;">
+            <div class="row-fluid">
+              
+              <div class="control-group"> <a class="btn" href="{weiwin::U('Comment/add',array('enid'=>$enid))}"><i class="icon-plus"></i>添加评论</a> <a class="btn" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a> </div>
+            </div>
+            <div class="row-fluid dataTables_wrapper">
+              <table id="listTable" class="table table-hover table-nomargin table-bordered usertable dataTable">
+                <thead>
+                  <tr>
+                  	<th>编号</th>
+                    <th>会员名称</th>
+                    <th>会员卡号</th>
+                    <th>评语</th>
+                 
+                    <th>评价时间</th>
+                    
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                <tr>
+                    <td>{weiwin:$vo.id}</td>
+                    <td><a href="{weiwin::U('Engineer/edit',array('id'=>$vo['enid']))}">{weiwin:$vo.truename}</a></td>
+                    <td><a href="{weiwin::U('Member/edit',array('id'=>$vo['memberid']))}">{weiwin:$vo.username}({weiwin:$vo.unum})</a></td>
+                    <td>{weiwin:$vo.comment}</td>
+                    
+                    <td>{weiwin:$vo.createtime|date="Y-m-d H:i:s",###}</td>
+                    <td><a href="{weiwin::U('Order/view',array('id'=>$vo['orderid']))}">{weiwin:$vo.ordernum}</a></td>
+                    <td>
+                     <a href="{weiwin::U('Encomment/view',array('id'=>$vo['id']))}" class="btnra" title="查看详情"><i class="icon-search"></i>查看详情</a>
+                    <!-- <a href="javascript: G.ui.tips.confirm('确定删除？','{weiwin::U("Brand/delete",array('id'=>$vo['id']))}')" class="btn" title="删除"><i class="icon-remove"></i>删除</a>-->
+                    </td>
+                  </tr>  
+                 </volist> 
+                 </tbody>
+              </table>
+              <div class="dataTables_paginate paging_full_numbers"><span>{weiwin:$page}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Public:footer" />

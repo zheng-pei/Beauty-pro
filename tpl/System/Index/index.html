@@ -1,0 +1,207 @@
+<include file="Public:header" />
+<div id="navigation">
+  <div class="container-fluid">
+    <div> <a href="#" target="_self" id="brand"><img src="{weiwin::RES}/images/logo1.png" /></a> </div>
+    <ul class='main-nav'>
+    <volist name="menus1" id="vo">
+      <li <if condition="$i eq 1">class='active'</if> data='{weiwin:$vo.id}'> <a href="javascript:;" onClick="show({weiwin:$vo.id});"> <span>{weiwin:$vo.nodename}</span> </a> </li>
+    </volist>
+
+     
+    </ul>
+    <div class="userbox">
+      <ul class="box-nav">
+        <li> <a href="{weiwin::U('System/Index/index')}" target="_self" title="打开首页"><i><img src="{weiwin::RES}/images/adminicon.png" /></i>{weiwin:$userid|getusername}</a> </li>
+       	  <!-- 消息提醒功能 -->
+        <li> <a href="{weiwin::U('System/Order/index')}" title="消息提醒" ><i><img src="{weiwin::RES}/images/xiaoxigicon.png" ></i><span>新订单</span><span id="messages"></span></a> </li>
+        <li> <a href="javascript:;" target="_blank" title="修改密码" class="changepwd"><i><img src="{weiwin::RES}/images/gicon.png" /></i>修改密码</a> </li>
+        <li><a  href="javascript:if(confirm('是否要退出?')){this.location.href='{weiwin::U('System/Login/logout')}'};" target="_self"  title="退出"><i><img src="{weiwin::RES}/images/cicon.png" /></i>退出</a> </li>
+      </ul>
+    </div>
+ 
+  </div>
+</div>
+<div class="container-fluid" id="content">
+  <div id="left">
+    
+        <!--subnav--> 
+    <volist name="menus2" id="vo1" key="pid">
+    	<volist name="vo1" id="vo2" key="key2">
+        <div class="subnav hide" data="{weiwin:$vo2.pid}">
+          <div class="subnav-title "> <a href="javascript:void(0)" class='toggle-subnav'><span>{weiwin:$vo2.nodename}</span><i class="arr-right"></i></a> </div>
+          <ul class="subnav-menu">
+          	<volist name="menus3[$vo2['id']]" id="vo3" key="key3">
+            <li> <a href="{weiwin:$vo3.url}" target="mainFrame" class="menu3">{weiwin:$vo3.nodename}</a> </li>
+            </volist>
+          </ul>
+        </div>
+        </volist>
+    </volist>
+  </div>
+  <!--left-->
+  <div class="right">
+    <div class="main">
+      <iframe frameborder="0" id="mainFrame" name="mainFrame" src="##"></iframe>
+    </div>
+  </div>
+</div>
+
+	<div style="clear:both;"></div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="changepass" action="" method="post" class="form-horizontal form-validate">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title"><i class="icon-table"></i>修改密码</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row-fluid"> 
+          	<div class="box-content">
+              	<div class="control-group">
+                    <label for="oldpassword" class="control-label">原始密码：</label>
+                    <div class="controls">
+                        <input name="oldpassword" id="oldpassword" type="password"  class="input-medium" placeholder="" />
+                        <span class="help-inline"></span>
+                     </div>
+                </div>
+                <div class="control-group">
+                    <label for="newpassword" class="control-label">新密码：</label>
+                    <div class="controls">
+                        <input name="newpassword" id="newpassword" type="password" data-rule-required="true" class="input-medium" placeholder="" />
+                        <span class="help-inline"></span>
+                     </div>
+                </div>
+          	    <div class="control-group">
+                    <label for="newpassword2" class="control-label">确认密码：</label>
+                    <div class="controls">
+                        <input name="newpassword2" id="newpassword2" type="password" data-rule-required="true" class="input-medium" placeholder="" />
+                        <span class="help-inline"></span>
+                     </div>
+                </div>
+               
+             </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="changepwd();">确定</button>
+        </div>
+      </form>     
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>
+<script>
+ window.setInterval("getmessageNum()", 1000);
+    function getmessageNum(){
+      $.ajax({
+      url: "index.php?g=System&m=Index&a=messages",
+      type: "POST",
+      success: function(data){ 
+        $("#messages").html("<font color='white'>"+data+"</font>");
+        }
+    });
+  }
+			var maxorderid=0;
+			
+		$(document).ready(function(){
+
+			
+			var mrpid=$(".main-nav li").eq(0).attr('data');
+			$("#left .subnav[data='"+mrpid+"']").show();
+			//$("#left .subnav[data='"+mrpid+"']").eq(0).children('.subnav-menu').show();
+			var default_url=$("#left .subnav[data='"+mrpid+"']:eq(0) .subnav-menu li:eq(0) a:eq(0)").attr('href');
+			$('#mainFrame').attr('src',default_url);
+			var authu=false;
+						if(authu){
+				$("#myauthModal").modal("show");
+			}
+			
+			// 绑定菜单提示语切换
+			$('#menu-handle').click(function(){
+				switchMenu(this);
+			});
+
+			// 设置皮肤色
+			P.skn();
+			$(".changepwd").on("click",function(){
+				$("#oldpassword").val('');
+				$("#newpassword").val('');
+				$("#newpassword2").val('');
+				$("#myModal").modal("show");	
+			});
+			$('.menu3').each(function(index, element) {
+                if($(this).text()=='订单管理'){
+					$('.daichuli').show();	
+				}
+            });
+			
+			//setInterval(getdcl,2000);
+			
+		});
+		
+		// 切换菜单提示语
+		function switchMenu(obj){
+			if('隐藏菜单' == $(obj).attr('title')){
+				$(obj).attr('title', '显示菜单');
+			}else{
+				$(obj).attr('title', '隐藏菜单');
+			}
+		}
+
+		function show(i){
+			$("#left .subnav").hide();
+			$("#left .subnav[data='"+i+"']").show();
+			$(".main-nav li").removeClass("active");
+			$(".main-nav li[data='"+i+"']").addClass("active");
+			$("#left .subnav[data='"+i+"']").find('.subnav-menu').hide();
+			//alert($("#left .subnav[data='"+i+"']").eq(0).children('.subnav-menu').is(":hidden"));
+			//console.log($("#left .subnav[data='"+i+"']").eq(0).length);
+			$("#left .subnav[data='"+i+"']").eq(0).find('.subnav-title i').removeClass("arr-right").addClass("arr-down");
+			$("#left .subnav[data='"+i+"']").eq(0).find('.subnav-menu').show();
+			var default_url=$("#left .subnav[data='"+i+"']:eq(0) .subnav-menu li:eq(0) a:eq(0)").attr('href');
+			$('#mainFrame').attr('src',default_url);
+		}
+		show(1);
+		$(function(){
+			$("#mainFrame").load(function() {
+                $("#mainFrame").contents().find("body").css("min-width","inherit"); //min-width没有auto的属性值！
+            });
+	   // $("#mainFrame").contents().find("body").css("min-height","auto"); //.contents()前对象仅可为iframe
+		})
+		
+		function changepwd(){
+			$('#myModal .help-inline').text('');
+			if($('#oldpassword').val()==''){
+				$('#oldpassword').focus();
+				$('#oldpassword').next(".help-inline").text('请输入原始密码');	
+			}else if($('#newpassword').val()==''){
+				$('#newpassword').focus();
+				$('#newpassword').next(".help-inline").text('请输入新密码');	
+			}else if($('#newpassword2').val()==''){
+				$('#newpassword2').focus();
+				$('#newpassword2').next(".help-inline").text('请输入确认密码');	
+			}else if($('#newpassword').val()!=$('#newpassword2').val()){
+				$('#newpassword2').focus();
+				$('#newpassword2').next(".help-inline").text('确认密码与新密码不一致');	
+			}else{
+				$('#myModal').modal("hide");
+				$.post("{weiwin::U('Flaguser/changepwd')}",$("#changepass").serialize(),function(data){
+					if(data.errno){
+						alert(data.error);
+					}else{
+						alert(data.error);
+						location.reload();	
+					}
+				},"json");
+			}
+		}
+		
+		 
+ //  $(function(){daichuli($("#daichuli"));})if(i>5){clearInterval(intv);a.css("color","#FF0000");}
+
+	</script>
+<include file="Public:footer" />

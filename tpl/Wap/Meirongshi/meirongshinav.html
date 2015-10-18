@@ -1,0 +1,15 @@
+<!-- 美容师中心的公共导航 -->
+<body class="bg_f0">
+<div class="main pd_bo">
+ <!--nav切换开始-->  
+  <div class="mei_center">
+  <div class="mei_logo">
+    <i><img src="{weiwin:$res['pic']}" alt="头像" /></i><a class="name fs24">{weiwin:$res['name']}</a></div>
+    <ul class="mei_center_con fs24">
+     <li>手法:{weiwin:$res.tech}</li>
+     <li>礼仪:{weiwin:$res.manner}</li>
+     <li>服务:{weiwin:$res.att}</li>
+    </ul>
+    <div class="mei_nav"><a href="{weiwin::U('Meirongshi/meirongshixm',array('id'=>$res['id']))}" <if condition="ACTION_NAME eq 'meirongshixm'">class="cur"</if>>项目</a><a href="{weiwin::U('Meirongshi/meirongshipj',array('id'=>$res['id']))}" <if condition="ACTION_NAME eq 'meirongshipj'">class="cur"</if>>评价</a><a href="{weiwin::U('Meirongshi/meirongshijj',array('id'=>$res['id']))}" <if condition="ACTION_NAME eq 'meirongshijj'">class="cur"</if>>简介</a></div>
+  </div>
+<!--nav结束--> 

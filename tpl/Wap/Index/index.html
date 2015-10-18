@@ -1,0 +1,57 @@
+<include file="Public:header"/>
+<body  class="bg_f0">
+<div class="main pd_bo">
+<!--选择地区-->
+<div class="diqu">
+   <div class="diqu_logo"></div>
+   <div class="diqu_cs fs24">
+  <div id="load_list">
+   <volist name="res" id="vo">
+   <a href="{weiwin::U('Index/beauty',array('areaid'=>$vo['id'],'id'=>0))}" class="br_rd border_cc color_a8">{weiwin:$vo.areaname}</a>
+   </volist>
+   </div>
+   <p class="fs18 color_a8" id="more_list">更多城市正在筹备中...</p>
+   </div>
+ </div>
+<!--底部菜单-->  
+</div>
+</body>
+<script>
+//加载更多
+$(function(){
+ var nowpage=1;
+ var isOver=true;
+ $(window).scroll(function(){
+  var w_s_top=$(window).scrollTop();
+  var b_s_top=$("body").height()-$(window).height()-100;
+  if(w_s_top>b_s_top && isOver){
+   isOver=false;
+   nowpage++;
+    $("#more_list").text("更多城市正在筹备中...");
+    $.post("{weiwin::U('Index/loadmore')}",{'nowpage':nowpage},function(data){
+      // console.log(nowpage);
+      // console.log(data);
+     //判断是否有新数据加载
+        var res=eval('('+data+')');
+        var str="";
+        if(res!=null){
+          $("#more_list").text("");
+          isOver=true;   //如果有更多数据则显示此段
+          for(var i=0;i<res.length;i++){
+            // console.log(res[i]['id']);
+            // console.log(res[i]['areaname']);
+            var id = res[i]['id'];
+            var urls="__APP__?m=Index&a=index&areaid="+id;
+            str+="<a href="+urls+" class='br_rd border_cc color_a8'>"+res[i]['areaname']+"</a>";
+          }
+           $("#load_list").append(str);
+        }
+        else{
+          $("#more_list").text("没有更多数据");  //如果没有更多数据则显示此段
+        }      
+   }); 
+  }
+ });
+ });
+</script>
+</html>

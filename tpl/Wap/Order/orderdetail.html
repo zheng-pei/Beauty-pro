@@ -1,0 +1,77 @@
+<include file="Public:header"/>
+<link href="{weiwin::RES}/css/center.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{weiwin::RES}/js/common.js" ></script>
+<script type="text/javascript" src="{weiwin::RES}/js/time.js" ></script>
+    <script type="text/javascript">
+	//调用微信JS api 支付
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			{weiwin:$jsApiParameters},
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				alert(res.err_code+res.err_desc+res.err_msg);
+			}
+		);
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+	</script>
+<body class="bg_f0">
+<div class="main pd_bo">
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+      <li class="border_e7">
+       <div ><span>订单信息</span><b class="color_fe fr">等待支付</b></div>
+      </li>
+      <li class="border_e7">
+        <div><span>订单编号</span><b class="color_88 fr">{weiwin:$res.num}</b></div>
+        </li>
+      <li>
+        <div><span>订单金额</span><b class="color_88 fr">{weiwin:$res.orderprice}元</b></div>
+        </a> </li>
+    </ul>
+  </div>
+  <div class="box border_dcc">
+    <ul class="gr_xingxi fs22 ">
+      <li class="border_e7">
+        <div ><span>预约顾客</span><b class="color_88 fr">{weiwin:$res.truename}</b></div>
+      </li>
+      <li class="border_e7">
+        <div><span>联系方式</span><b class="color_88 fr">{weiwin:$res.phone}</b></div>
+        </li>
+      <li class="border_e7">
+        <div><span>服务时间</span><b class="color_88 fr">{weiwin:$res.ordertime}</b></div>
+       </li>
+      <li class="border_e7">
+        <div><span>美容师</span><b class="color_88 fr">{weiwin:$mrsname}</b></div>
+        </a> </li>
+      <li>
+        <div><span>服务项目</span><b class="color_88 fr">{weiwin:$servicename}</b></div>
+      </li>
+    </ul>
+  </div>
+  <!--底部菜单,支付的话，则有支付的按钮--> 
+  <footer> 
+  <div class="bottom bg_ff yuyue ">
+  <!-- 对接微信支付 待做-->
+   <a class="fs24 color_fe br_rd border_fe qda" onClick="callpay();">微信支付</a>
+  </div>
+ </footer>
+</div>
+</body>
+</html>
+
